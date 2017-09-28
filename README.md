@@ -3,39 +3,51 @@
 
 该项目使用四种主流框架搭建
 
-angular, vue, react, angular2
+[angular框架版本](#angular)
+
+[vue框架版本](#vue)
+
+[react框架版本](#react)
+
+[angular2框架版本](#angular2)
 
 后台使用nodeJS与mongoDB, 想拉下来自己搭建测试的同学详见下方的 [部署说明](#deploy)
 
-## MS-angular
+[项目页面说明](#page)
+
+[项目自制组件说明](#components)
+
+[后续更新](#next)
+
+<h2 id="angular">MS-angular</h2>
 使用原生JS搭建angular框架
 
 无自动化构建工具
 
 前端包用bower下载，为了方便就直接放在git里面了
 
-请进入该文件夹查看更多angular项目相关说明
+[请进入该文件夹查看更多angular项目相关说明](https://github.com/hjp007/musicShare/tree/master/MS-angular)
 
-## MS-vue-ES6
+<h2 id="vue">MS-vue-ES6</h2>
 使用webpack自动化构建工具构建
 
 项目使用ECMAscript6语法
 
-请进入该文件夹查看更多vue项目相关说明
+[请进入该文件夹查看更多vue项目相关说明](https://github.com/hjp007/musicShare/tree/master/MS-vue-ES6)
 
-## MS-react-ES6
+<h2 id="react">MS-react-ES6</h2>
 使用webpack自动化构建工具构建
 
 项目使用ECMAscript6语法
 
-请进入该文件夹查看更多react项目相关说明
+[请进入该文件夹查看更多react项目相关说明](https://github.com/hjp007/musicShare/tree/master/MS-react-ES6)
 
-## MS-angular2-TS
+<h2 id="angular2">MS-angular2-TS</h2>
 使用webpack自动化构建工具构建
 
 项目使用Typescript语法
 
-请进入该文件夹查看更多angular2项目相关说明
+[请进入该文件夹查看更多angular2项目相关说明](https://github.com/hjp007/musicShare/tree/master/MS-angular2-TS)
 
 <h2 id="deploy">部署说明</h2>
 
@@ -59,7 +71,7 @@ angular, vue, react, angular2
 		SECRET_KEY : '2x3FE_0qdXySDn8QtbZ85Dh58gr3Yyo9nLV6ehFr'
 	}
 
-## 项目页面说明
+<h2 id='page'>项目页面说明</h2> 
 本项目是音乐分享平台，利用七牛云存储音乐文件，来达到在线听音乐，上传音乐，添加好友，分享音乐链接的功能
 
 本项目结构简单，可以更好的上手对于框架的使用
@@ -89,7 +101,7 @@ angular, vue, react, angular2
 ![](doc/checkShareRequest2_page.png) 
 ![](doc/checkShareRequest3_page.png) 
 
-## 项目自制组件说明
+<h2 id="components">项目自制组件说明</h2> 
 项目一共用了3个自制组件，分别用框架不同形式构建
 
 ### musicNav
@@ -135,6 +147,7 @@ angular, vue, react, angular2
 	    status : Number
 	});
 
-## 后续更新
+<h2 id="next">后续更新</h2> 
 即将增加vue框架同时使用vuex状态管理的版本
 
+######文档更新于2017.9.28
