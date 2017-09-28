@@ -37,7 +37,7 @@ angular, vue, react, angular2
 
 请进入该文件夹查看更多angular2项目相关说明
 
-## <span id="deploy">部署说明</span>
+<h2 id="deploy">部署说明</h2>
 
 项目需要安装node,npm与webpack的指令，这里不再赘述
 
