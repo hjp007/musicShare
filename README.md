@@ -1,11 +1,11 @@
-# misicShare
+# musicShare
 音乐分享平台（同一项目，四种主流框架搭建）
 
 该项目使用四种主流框架搭建
 
 angular, vue, react, angular2
 
-后台使用nodeJS与mongoDB, 想拉下来自己搭建测试的同学详见下方的“部署说明”
+后台使用nodeJS与mongoDB, 想拉下来自己搭建测试的同学详见下方的 [部署说明](#deploy)
 
 ## MS-angular
 使用原生JS搭建angular框架
@@ -37,7 +37,7 @@ angular, vue, react, angular2
 
 请进入该文件夹查看更多angular2项目相关说明
 
-## 部署说明
+## <span id="deploy">部署说明</span>
 
 项目需要安装node,npm与webpack的指令，这里不再赘述
 
