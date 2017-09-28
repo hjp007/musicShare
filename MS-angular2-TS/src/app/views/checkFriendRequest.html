@@ -1,0 +1,55 @@
+<div class="container checkFriendRequest">
+	<music-nav [showName]="true" [username]="username">
+		<li (click)="toLogin()">注销</li>
+	  	<li (click)="toHome()">个人中心</li>
+	</music-nav>
+
+	<ul class="nav nav-pills" role="tablist">
+  		<li role="presentation" [class.active]="tab=='CheckTab'" (click)="tab='CheckTab'">
+    		<a href="javascript:;">加友事项</a>
+  		</li>
+  		<li role="presentation" [class.active]="tab=='AddTab'" (click)="tab='AddTab'">
+    		<a href="javascript:;">添加好友</a>
+  		</li>
+	</ul>
+	<div *ngIf="tab=='CheckTab'" class="checkFriendList">
+		<span *ngIf="friendRequests.length==0" class="text-danger">无</span>
+		<ul *ngIf="friendRequests.length!=0" class="list-group">
+
+		    <li class="list-group-item" *ngFor="let friendRequest of friendRequests">
+		    	<p>发起人：<span class='fr'>{{friendRequest.origin.name}}</span></p>
+		    	<p>接收人：<span class='fr'>{{friendRequest.target.name}}</span></p>
+		    	<p>类型：
+		    		<span class='fr' *ngIf="friendRequest.origin.name==username">发起</span>
+		    		<span class='fr' *ngIf="friendRequest.target.name==username">接收</span>
+		    	</p>
+		    	<div class="row" *ngIf="friendRequest.target.name==username&&friendRequest.status==0">
+		    		<button class="btn btn-success col-xs-3 col-xs-offset-2" (click)="replyFriendRequest(friendRequest._id, 1)">同意请求</button>
+		    		<button class="btn btn-danger col-xs-3 col-xs-offset-2" (click)="replyFriendRequest(friendRequest._id, 2)">拒绝请求</button>
+		    	</div>
+		    	<p class="text-center text-success" *ngIf="friendRequest.status==1">已成功加友</p>
+		    	<p class="text-center text-danger" *ngIf="friendRequest.status==2">已拒绝加友</p>
+		    </li>
+	  	</ul>		
+	</div>
+	<div *ngIf="tab=='AddTab'" class="addChart">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+	    		<h3 class="panel-title">查找好友姓名</h3>
+	  		</div>
+	  		<div class="panel-body">
+	  			<input type="text" class="form-control" [(ngModel)]="searchuser">
+	  			<div class="row">
+		    		<button class="btn btn-primary search col-xs-6 col-xs-offset-3" (click)="searchFriend()">查找</button>
+	  			</div>
+		    	<div *ngIf="emShow">
+		    		<p>姓名：<span class='fr'>{{result.name}}</span></p>
+		    		<p>兴趣：<span class='fr'>{{result.interest}}</span></p>
+		    		<div class="row">
+		    			<button class="btn btn-primary col-xs-6 col-xs-offset-3" (click)="friendRequest()">发起请求</button>
+		    		</div>
+		    	</div>
+	  		</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+.login{
+	background: url(../images/bg1.jpg) no-repeat 0px 0px;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	min-height:700px;
+	padding-top:20px;
+}

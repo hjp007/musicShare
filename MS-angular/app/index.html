@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>音乐分享平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!-- bootstrap -->
+	<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<!--公共 css -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+<body ng-app="myApp">
+	<div class='main-view' ui-view></div>
+</body>
+	<!-- angular -->
+	<script type="text/javascript" src='/bower_components/angular/angular.min.js'></script>
+	<!-- jquery -->
+	<script type="text/javascript" src='/bower_components/jquery/dist/jquery.min.js'></script>
+	<!-- bootstrap -->
+	<script type="text/javascript" src='/bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
+	<!-- angular-ui-router -->
+	<script type="text/javascript" src='/bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+	<!-- angular-css -->
+	<script src="/bower_components/angular-css/angular-css.min.js"></script>
+	<!-- angular-local-storage -->
+	<script type="text/javascript" src='/bower_components/angular-local-storage/dist/angular-local-storage.min.js'></script>
+	<!--公共 js -->
+	<script type="text/javascript" src='index.js'></script>
+	<!-- components -->
+	<script type="text/javascript" src='/components/musicUploader/musicUploader.js'></script>
+	<script type="text/javascript" src='/components/musicNav/musicNav.js'></script>
+	<script type="text/javascript" src='/components/musicModal/musicModal.js'></script>
+	<!-- controller -->
+	<script type="text/javascript" src="./javascripts/mainController.js"></script>
+	<script type="text/javascript" src="./javascripts/loginController.js"></script>
+	<script type="text/javascript" src="./javascripts/homeController.js"></script>
+	<script type="text/javascript" src="./javascripts/checkFriendRequestController.js"></script>
+	<script type="text/javascript" src="./javascripts/checkShareRequestController.js"></script>
+
+</html>

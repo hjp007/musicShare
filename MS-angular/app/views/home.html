@@ -1,0 +1,51 @@
+<div class="container home">
+	<music-nav show-name="true" username="user.name">
+		<li ng-click="toLogin()">注销</li>
+	  	<li ng-click="toCheckFriendRequest()">加友管理</li>
+		<li ng-click="toCheckShareRequest()">音乐分享</li>
+	</music-nav>
+
+
+	<ul class="nav nav-pills" id="container" role="tablist">
+  		<li role="presentation" ng-class="{SongTab: 'active', FriendTab: '', UploadTab:''}[tab]" ng-click="tab='SongTab'">
+    		<a href="javascript:;">音乐列表</a>
+  		</li>
+  		<li role="presentation" ng-class="{SongTab: '', FriendTab: 'active',UploadTab:''}[tab]" ng-click="tab='FriendTab'">
+    		<a href="javascript:;">好友列表</a>
+  		</li>
+  		<li role="presentation" ng-class="{SongTab: '', FriendTab: '', UploadTab:'active'}[tab]" ng-click="tab='UploadTab'">
+    		<a href="javascript:;">音乐上传</a>
+  		</li>
+
+	</ul>
+	<div ng-show="tab=='SongTab'" class="songList">
+		<span ng-show="user.songs.length==0" class="text-danger">无</span>
+		<ul ng-show="user.songs.length!=0" class="list-group">
+		    <li class="list-group-item row" ng-repeat="song in user.songs">
+		    	<div class="col-xs-8">
+                    <span>{{song.name}}</span>
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-success fr" name="viewSong" ng-click="download(song.url)">收听</button>
+                </div>
+            </li>
+	  	</ul>		
+	</div>
+	<div ng-show="tab=='FriendTab'" class="friendList">
+		<span ng-show="user.friends.length==0" class="text-danger">无</span>
+		<ul ng-show="user.friends.length!=0" class="list-group">
+		    <li class="list-group-item row" ng-repeat="friend in user.friends">
+		        <div class="col-xs-6">
+                    <span>{{friend.name}}</span>
+                </div>
+                <div class="col-xs-6">
+                    <span class="fr">兴趣：{{friend.interest}}</span>
+                </div>
+		    </li>
+	  	</ul>		
+	</div>
+	<div ng-show="tab=='UploadTab'" class="uploadPage">
+		<music-uploader></music-uploader>
+	</div>
+
+</div>

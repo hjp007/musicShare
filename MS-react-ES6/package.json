@@ -1,0 +1,44 @@
+{
+  "name": "music",
+  "version": "1.0.0",
+  "description": "This is music sharing made by react + es6 + express",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline --colors --content-base ./build",
+    "build": "webpack --progress --colors"
+  },
+  "author": "hjp",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
+    "co": "^4.6.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.4",
+    "jquery": "^3.2.1",
+    "mongoose": "^4.11.10",
+    "qiniu": "^6.1.13",
+    "react": "^15.6.1",
+    "react-css-modules": "^4.7.1",
+    "react-dom": "^15.6.1",
+    "react-router-dom": "^4.2.2",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-runtime": "^6.26.0",
+    "css-loader": "^0.28.7",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
+  }
+}

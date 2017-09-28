@@ -1,0 +1,50 @@
+<div class="container home">
+	<music-nav [showName]="true" [username]="username">
+		<li (click)="toLogin()">注销</li>
+	  	<li (click)="toCheckFriendRequest()">加友管理</li>
+		<li (click)="toCheckShareRequest()">音乐分享</li> 
+	</music-nav>
+
+	<ul class="nav nav-pills" id="container" role="tablist">
+  		<li role="presentation" [class.active]="tab=='SongTab'" (click)="tab='SongTab'">
+    		<a href="javascript:;">音乐列表</a>
+  		</li>
+  		<li role="presentation" [class.active]="tab=='FriendTab'" (click)="tab='FriendTab'">
+    		<a href="javascript:;">好友列表</a>
+  		</li>
+  		<li role="presentation" [class.active]="tab=='UploadTab'" (click)="tab='UploadTab'">
+    		<a href="javascript:;">音乐上传</a>
+  		</li>
+
+	</ul>
+	<div *ngIf="tab=='SongTab'" class="songList">
+		<span *ngIf="songs.length==0" class="text-danger">无</span>
+		<ul *ngIf="songs.length!=0" class="list-group">
+		    <li *ngFor="let song of songs" class="list-group-item row">
+		    	<div class="col-xs-8">
+                    <span>{{song.name}}</span>
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-success fr" name="viewSong" (click)="download(song.url)">收听</button>
+                </div>
+            </li>
+	  	</ul>		
+	</div>
+	<div *ngIf="tab=='FriendTab'" class="friendList">
+		<span *ngIf="friends.length==0" class="text-danger">无</span>
+		<ul *ngIf="friends.length!=0" class="list-group">
+		    <li *ngFor="let friend of friends" class="list-group-item row">
+		        <div class="col-xs-6">
+                    <span>{{friend.name}}</span>
+                </div>
+                <div class="col-xs-6">
+                    <span class="fr">兴趣：{{friend.interest}}</span>
+                </div>
+		    </li>
+	  	</ul>		
+	</div>
+	<div *ngIf="tab=='UploadTab'" class="uploadPage">
+		<music-uploader></music-uploader>
+	</div>
+
+</div>

@@ -1,0 +1,1 @@
+db.users.save({name: "hjp","songs" : [], "password" : "123456", "interest" : "book", "friends" : [], "share" : []});

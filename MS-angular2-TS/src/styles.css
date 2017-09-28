@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+.fl{float: left; }
+.fr{float:right; }
+.clear{zoom:1;}
+.clear:after{content:""; display: table; clear:both; }
+		
+body { padding-top: 50px; }
+
+.navbar-nav li{
+	line-height: 50px;
+	height: 50px;
+	margin:0 5%;
+}

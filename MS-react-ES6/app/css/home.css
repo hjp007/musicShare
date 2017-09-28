@@ -1,0 +1,13 @@
+.nav-pills{
+	padding-top: 20px; 
+	margin-bottom: 10px; 
+}
+
+.songList .list-group-item span{
+	line-height: 34px; 
+	height: 34px; 
+}
+.friendList .list-group-item span{
+	line-height: 34px; 
+	height: 34px; 
+}

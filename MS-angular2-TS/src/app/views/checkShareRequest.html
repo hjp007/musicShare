@@ -1,0 +1,82 @@
+<div class="container checkShareRequest">
+    <music-nav [showName]="true" [username]="username">
+        <li (click)="toLogin()">注销</li>
+        <li (click)="toHome()">个人中心</li>
+    </music-nav>
+
+	<ul class="nav nav-pills" role="tablist">
+  		<li role="presentation" class="active">
+    		<a href="javascript:;">分享事项</a>
+  		</li>
+  		<button class='btn btn-success pull-right' data-toggle="modal" data-target="#shareModal">点击创建分享</button>
+	</ul>
+	<div class="checkShareList">
+		<span *ngIf="shareRequests.length==0" class="text-danger">无</span>
+		<ul *ngIf="shareRequests.length!=0" class="list-group">
+		    <li class="list-group-item" *ngFor="let shareRequest of shareRequests">
+		    	<p>歌曲名称：<span class='fr'>{{shareRequest.song.name}}</span></p>
+		    	<p>发起人：<span class='fr'>{{shareRequest.owner.name}}</span></p>
+		    	<p>接收人：<span class='fr'>{{shareRequest.target.name}}</span></p>
+		    	<p>类型：
+		    		<span class='fr' *ngIf="shareRequest.owner.name==username">发起</span>
+		    		<span class='fr' *ngIf="shareRequest.target.name==username">接收</span>
+		    	</p>
+		    	<div class="row" *ngIf="shareRequest.target.name==username&&shareRequest.status==0">
+		    		<button class="btn btn-success col-xs-3 col-xs-offset-2" (click)="replyShareRequest(shareRequest._id, 1)">同意请求</button>
+		    		<button class="btn btn-danger col-xs-3 col-xs-offset-2" (click)="replyShareRequest(shareRequest._id, 2)">拒绝请求</button>
+		    	</div>
+		    	<p class="text-center text-success" *ngIf="shareRequest.status==1">已成功操作</p>
+		    	<p class="text-center text-danger" *ngIf="shareRequest.status==2">已拒绝操作</p>
+		    </li>
+	  	</ul>		
+	</div>
+    <music-modal [modalId]="'shareModal'">
+        <div header>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetStatus()"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel" *ngIf="shareOperationStatus==0">选择好友</h4>
+          <h4 class="modal-title" id="myModalLabel" *ngIf="shareOperationStatus==1">选择歌曲</h4>
+        </div>
+        <div body>
+          <table class="table" *ngIf="shareOperationStatus==0">
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let friend of friends">
+                <th>{{friend.name}}</th>
+                <th>
+                  <button type="button" class="btn btn-primary" (click)="selectFriend(friend)">  
+                    选择
+                  </button>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table" *ngIf="shareOperationStatus==1">
+            <thead>
+              <tr>
+                <th>歌曲名</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let song of songs">
+                <th>{{song.name}}</th>
+                <th>
+                  <button type="button" class="btn btn-primary" (click)="selectSong(song)" data-dismiss="modal"> 
+                    选择并确定
+                  </button>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div footer>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="resetStatus()">关闭</button>
+        </div>
+    </music-modal>
+</div>
+
