@@ -1,4 +1,4 @@
-angular.module('myApp').controller("checkFriendRequestController",["$scope","$state","$stateParams", "$http","$timeout", "localStorageService" ,function($scope, $state, $stateParams, $http,$timeout, localStorageService){
+angular.module('myApp').controller("checkFriendRequestController",["$scope","$rootScope","$state","$stateParams", "$http","$timeout", "localStorageService" ,function($scope, $rootScope, $state, $stateParams, $http,$timeout, localStorageService){
 	
     $scope.tab = 'CheckTab';//CheckTab为信息列表，AddTab为加友页面
 
@@ -19,7 +19,7 @@ angular.module('myApp').controller("checkFriendRequestController",["$scope","$st
 	            $scope.friendRequests = data.data.friendRequests; 
 
 	        } else{
-	        	alert(data.message);
+	        	$rootScope.alert(data.message);
 	        }
 	    })
 	    .error(function (error) {
@@ -36,7 +36,7 @@ angular.module('myApp').controller("checkFriendRequestController",["$scope","$st
 						show: true                 
 	                }
 		        } else{
-		        	alert(data.message);
+		        	$rootScope.alert(data.message);
 		        	$scope.emshow = {
 						show: false                 
 	                }
@@ -56,10 +56,11 @@ angular.module('myApp').controller("checkFriendRequestController",["$scope","$st
         $http.post('addFriend', postData)
             .success(function (data) {
 		        if(data.result==='success'){
-		            alert("您的请求已经发送，等待对方确认！"); 
-		            window.location.reload();
+		            $rootScope.alert("您的请求已经发送，等待对方确认！", function(){
+		            	window.location.reload();
+		            }); 
 		        } else{
-		        	alert(data.message);
+		        	$rootScope.alert(data.message);
 		        }
             })
             .error(function (error) {
@@ -75,10 +76,11 @@ angular.module('myApp').controller("checkFriendRequestController",["$scope","$st
         $http.post('replyFriendRequest', postData)
             .success(function (data) {
 		        if(data.result==='success'){
-		            alert("您的回复已经发送！"); 
-		            window.location.reload();
+		            $rootScope.alert("您的回复已经发送！", function(){
+		            	window.location.reload();
+		            }); 
 		        } else{
-		        	alert(data.message);
+		        	$rootScope.alert(data.message);
 		        }
             })
             .error(function (error) {

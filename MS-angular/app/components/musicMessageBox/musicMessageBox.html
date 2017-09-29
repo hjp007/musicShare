@@ -1,0 +1,20 @@
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      	<div class="modal-header" ng-click="fun()">
+	      		<span ng-show="messageBox.type=='alert'">提示</span>
+	      		<span ng-show="messageBox.type=='confirm'">请确认</span>
+	      	</div>
+	      	<div class="modal-body">{{messageBox.message}}</div>
+	      	<div class="modal-footer">
+	      		<div class="row" ng-show="messageBox.type=='alert'">
+	      			<button type="button" class="btn btn-default col-xs-4 col-xs-offset-4" data-dismiss="modal" ng-click="callback()">关闭</button>
+	      		</div>
+	      		<div class='row' ng-show="type=='messageBox.confirm'">
+	      			<button type="button" class="btn btn-default col-xs-4" ng-click="callback()" data-dismiss="modal">确认</button>
+	      			<button type="button" class="btn btn-default col-xs-4 col-xs-offset-4" data-dismiss="modal">取消</button>
+	      		</div>
+	      	</div>
+	    </div>
+	</div>
+</div>

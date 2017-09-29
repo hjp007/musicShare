@@ -39,5 +39,10 @@
 22. onclick里面写angular.element(this).scope()可以达到与ng-click一样效果
 23. 文件上传按钮(input type=file)的样式很难自定义，可以隐藏它然后用一个按钮来触发这个按钮
 24. angular directive里ng-transinclude可以多个嵌入
+25. angular audio使用ng-src来设置src,并用$sce自带插件下trustAsResourceUrl方法动态加载外部数据
+26. angular directive如果想使用$rootScope的数据,需要去掉scope,或者scope:false,或者在scope里面添加rootScope
+27. rootScope的数据修改后如果要渲染需要额外apply一次
+28. angular应用可以用run来定义rootScope全局函数或者进行一些初始化操作($rootScope不能赋值)
+29. 项目的提示确认框是通过调用全局函数和modal函数来动态生成样式和数据的
 ###### 知识点清单创建于2017.9.7 当日重构了该项目前端所有html+css并适应移动端开发
 </pre>

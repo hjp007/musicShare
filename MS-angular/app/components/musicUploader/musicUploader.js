@@ -1,4 +1,4 @@
-angular.module('myApp').directive('musicUploader',['$http','localStorageService', function($http, localStorageService){
+angular.module('myApp').directive('musicUploader',['$http','$rootScope','localStorageService', function($http, $rootScope, localStorageService){
   return {
     	restrict: 'EA',
     	scope : {
@@ -24,11 +24,11 @@ angular.module('myApp').directive('musicUploader',['$http','localStorageService'
           console.log(file);
           if (file) {
               if(file.size > $scope.accepts.maxSize){
-                  alert("文件超过10M！"); 
+                  $rootScope.alert("文件超过10M！");
                   return; 
               }
               if(!$scope.contains($scope.accepts.checkType, file.type)){
-                  alert("请上传音乐！目前支持mp3,wav,wma,ogg格式！"); 
+                  $rootScope.alert('请上传音乐！目前支持mp3,wav,wma,ogg格式！');
                   return; 
               }
               var formData = new FormData();
@@ -64,10 +64,10 @@ angular.module('myApp').directive('musicUploader',['$http','localStorageService'
                                   $http.post('createSong', postData)
                                       .success(function (data) {
                                           if(data.result==='success'){
-                                              alert("操作成功！");
+                                              $rootScope.alert("操作成功！");
                                               window.location.reload(); 
                                           } else{
-                                              alert(data.message);
+                                              $rootScope.alert(data.message);
                                           }
                                       })
                                       .error(function (error) {
@@ -79,7 +79,7 @@ angular.module('myApp').directive('musicUploader',['$http','localStorageService'
                           .error(function (error) {
                           });
                       } else{
-                          alert(data.message);
+                          $rootScope.alert(data.message);
                       }
                   })
                   .error(function (error) {

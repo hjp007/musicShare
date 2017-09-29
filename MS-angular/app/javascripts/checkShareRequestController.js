@@ -1,4 +1,6 @@
-angular.module('myApp').controller("checkShareRequestController",["$scope","$state","$stateParams", "$http","$timeout", "localStorageService" ,function($scope, $state, $stateParams, $http,$timeout, localStorageService){
+angular.module('myApp').controller("checkShareRequestController",["$scope","$rootScope","$state","$stateParams", "$http","$timeout", "localStorageService" ,function($scope,$rootScope, $state, $stateParams, $http,$timeout, localStorageService){
+
+	$scope.message = ""; 
 
 	$scope.id = localStorageService.get("identity");
 	if ($scope.id == null){
@@ -15,7 +17,8 @@ angular.module('myApp').controller("checkShareRequestController",["$scope","$sta
 	        	$scope.user = data.data.user;
 	            $scope.shareRequests = data.data.shareRequests; 
 	        } else{
-	        	alert(data.message);
+
+	        	$rootScope.alert(data.message);
 	        }
 	    })
 	    .error(function (error) {
@@ -32,7 +35,7 @@ angular.module('myApp').controller("checkShareRequestController",["$scope","$sta
 	$scope.selectSong = function (song){
 		$scope.shareOperationStatus = 0;
 		if($scope.friendName == ""){
-			alert("未知错误！"); 
+			$rootScope.alert("未知错误！"); 
 			return; 
 		}
 		var postData = {
@@ -43,10 +46,11 @@ angular.module('myApp').controller("checkShareRequestController",["$scope","$sta
 		$http.post('addShare', postData)
 		    .success(function (data) {
 		        if(data.result==='success'){
-		        	alert("分享已经发送！"); 
-		            window.location.reload();
+		        	$rootScope.alert("分享已经发送！", function(){
+		            	window.location.reload();
+		        	}); 
 		        } else{
-		        	alert(data.message);
+		        	$rootScope.alert(data.message);
 		        }
 		    })
 		    .error(function (error) {
@@ -66,10 +70,11 @@ angular.module('myApp').controller("checkShareRequestController",["$scope","$sta
         $http.post('replyShareRequest', postData)
             .success(function (data) {
 		        if(data.result==='success'){
-		            alert("您的回复已经发送！歌曲会出现在您列表里！"); 
-		            window.location.reload();
+		            $rootScope.alert("您的回复已经发送！歌曲会出现在您列表里！", function(){
+		            	window.location.reload();
+		            }); 
 		        } else{
-		        	alert(data.message);
+		        	$rootScope.alert(data.message);
 		        }
             })
             .error(function (error) {

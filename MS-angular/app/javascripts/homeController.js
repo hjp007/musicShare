@@ -1,8 +1,5 @@
-angular.module('myApp').controller("homeController",["$scope","$state","$stateParams", "$http","$timeout", "localStorageService" ,function($scope, $state, $stateParams, $http,$timeout, localStorageService){
-
+angular.module('myApp').controller("homeController",["$scope","$rootScope","$state","$stateParams", "$http","$timeout","$sce", "localStorageService" ,function($scope,$rootScope, $state, $stateParams, $http,$timeout,$sce, localStorageService){
     $scope.tab = 'SongTab';//SongTab为音乐列表，FriendTab为好友列表 UploadTab为上传页面
-
-
 	$scope.id = localStorageService.get("identity");
 	if ($scope.id == null){
 		$state.go('login');
@@ -14,23 +11,26 @@ angular.module('myApp').controller("homeController",["$scope","$state","$statePa
 	        if(data.result==='success'){
 	            $scope.user = data.data; 
 	        } else{
-	        	alert(data.message);
+	        	$rootScope.alert(data.message);
 	        }
 	    })
 	    .error(function (error) {
-
 	    });
+
+	$scope.musicUrl = ""; 
+	$scope.sce = $sce.trustAsResourceUrl;
+	$scope.musicFlag = false; 
     $scope.download = function (url) {
         $http.get('downloadSong?url=' + url)
             .success(function (data) {
                 if(data.result==='success'){
-                    window.open(data.data);      
+                	$scope.musicUrl = data.data;
+                	$scope.musicFlag = true; 
                 } else{
-                    alert(data.message);
+                    $rootScope.alert(data.message);
                 }
             })
             .error(function (error) {
-
             });
     }
 	$scope.toLogin = function () {
@@ -43,5 +43,4 @@ angular.module('myApp').controller("homeController",["$scope","$state","$statePa
 	$scope.toCheckShareRequest = function () {
 		$state.go('checkShareRequest'); 
 	}
-
 }]);

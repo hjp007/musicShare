@@ -47,5 +47,9 @@
 	<div ng-show="tab=='UploadTab'" class="uploadPage">
 		<music-uploader></music-uploader>
 	</div>
+	<div class="audioDiv" ng-show="musicFlag" >
+		<audio controls autoplay ng-src="{{sce(musicUrl)}}">
+		</audio>		
+	</div>
 
 </div>

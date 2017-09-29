@@ -2,7 +2,7 @@
 (function() {
 
 	exports.DB = {
-	    uri: "mongodb://localhost:27017/musicSharing",
+	    uri: "mongodb://47.92.85.220:27017/musicSharing",
 	    auth: false
 	};
 

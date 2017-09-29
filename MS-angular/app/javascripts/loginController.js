@@ -1,4 +1,4 @@
-angular.module('myApp').controller("loginController",["$scope","$state","$stateParams", "$http","$timeout", "localStorageService" ,function($scope, $state, $stateParams, $http,$timeout, localStorageService){
+angular.module('myApp').controller("loginController",["$scope","$rootScope","$state","$stateParams", "$http","$timeout", "localStorageService" ,function($scope,$rootScope, $state, $stateParams, $http,$timeout, localStorageService){
  
   $scope.id = localStorageService.get("identity");
 
@@ -22,11 +22,11 @@ angular.module('myApp').controller("loginController",["$scope","$state","$stateP
         }
         var checkForm = 0;
         if ($scope.username==="") {
-          alert("账号不能为空")
+          $rootScope.alert("账号不能为空")
           checkForm = checkForm + 1;
         }
         else if ($scope.password==="") {
-          alert("密码不能为空")
+          $rootScope.alert("密码不能为空")
           checkForm = checkForm + 1;
         }
         if (checkForm === 0) {
@@ -37,7 +37,7 @@ angular.module('myApp').controller("loginController",["$scope","$state","$stateP
                   localStorageService.set("identity", data.data);
                   $state.go('home');
                 } else {
-                  alert(data.message);
+                  $rootScope.alert(data.message);
                 }
               })
             .error(function (error) {
