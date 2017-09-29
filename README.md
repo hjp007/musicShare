@@ -3,6 +3,16 @@
 
 该项目使用四种主流框架搭建
 
+##在线项目展示
+
+`angular` http://47.92.85.220:8080
+
+`vue` http://47.92.85.220:8081
+
+`react` http://47.92.85.220:8082
+
+`angular2` http://47.92.85.220:8083
+
 [angular框架版本](#angular)
 
 [vue框架版本](#vue)
@@ -16,6 +26,8 @@
 [项目页面说明](#page)
 
 [项目自制组件说明](#components)
+
+[数据库说明](#database)
 
 [后续更新](#next)
 
@@ -48,28 +60,6 @@
 项目使用Typescript语法
 
 [请进入该文件夹查看更多angular2项目相关说明](https://github.com/hjp007/musicShare/tree/master/MS-angular2-TS)
-
-<h2 id="deploy">部署说明</h2>
-
-项目需要安装node,npm与webpack的指令，这里不再赘述
-
-关于数据库的搭建，请下载mongoDB
-
-数据库的可视化操作可使用Studio 3T软件来查看
-
-数据库需要本地搭建，如果需要远程，请进入各个项目的 *proxy* 文件夹，修改下面的代码
-
-    exports.DB = {
-	    uri: "mongodb://localhost:27017/musicSharing",
-	    auth: false
-	};
-
-七牛云目前使用我本人的账号，存储空间有限，如果想使用自己的七牛云，请修改公钥和私钥，请进入各个项目的 *proxy* 文件夹，修改下面的代码
-
-	exports.qiniu = {
-		ACCESS_KEY : 'XlXWymRk8gQfrH7Rp4ZlMHl5dYizWWMsPCiHsEs-', 
-		SECRET_KEY : '2x3FE_0qdXySDn8QtbZ85Dh58gr3Yyo9nLV6ehFr'
-	}
 
 <h2 id='page'>项目页面说明</h2> 
 本项目是音乐分享平台，利用七牛云存储音乐文件，来达到在线听音乐，上传音乐，添加好友，分享音乐链接的功能
@@ -116,7 +106,7 @@
 ###### 点击弹出的拟态框（封装了bootstrap的UI）
 ![](doc/checkShareRequest2_page.png) 
 
-## 数据库说明
+<h2 id='database'>数据库说明</h2> 
 数据库很简单
 
 一共4个表
@@ -146,6 +136,28 @@
 		target : {type : Schema.Types.ObjectId, ref : "User"}, 
 	    status : Number
 	});
+
+<h2 id="deploy">部署说明</h2>
+
+项目需要安装node,npm与webpack的指令，这里不再赘述
+
+关于数据库的搭建，请下载mongoDB
+
+数据库的可视化操作可使用Studio 3T软件来查看
+
+数据库需要本地搭建，如果需要远程，请进入各个项目的 *proxy* 文件夹，修改下面的代码
+
+    exports.DB = {
+	    uri: "mongodb://localhost:27017/musicSharing",
+	    auth: false
+	};
+
+七牛云目前使用我本人的账号，存储空间有限，如果想使用自己的七牛云，请修改公钥和私钥，请进入各个项目的 *proxy* 文件夹，修改下面的代码
+
+	exports.qiniu = {
+		ACCESS_KEY : 'XlXWymRk8gQfrH7Rp4ZlMHl5dYizWWMsPCiHsEs-', 
+		SECRET_KEY : '2x3FE_0qdXySDn8QtbZ85Dh58gr3Yyo9nLV6ehFr'
+	}
 
 <h2 id="next">后续更新</h2> 
 即将增加vue框架同时使用vuex状态管理的版本

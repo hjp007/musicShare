@@ -14,6 +14,7 @@
     http://localhost:8080/
     
 ## angular相关知识点
+<pre>
 1. 额外使用了ng-style动态设置css的number值，ng-class动态改变class属性选择
 2. angular必须使用angular-css才能实现局部css。angular，vue，react里面只有vue自带实现了局部css功能
 3. 该项目没有使用自动化构建工具，没有使用ES6
@@ -39,3 +40,4 @@
 23. 文件上传按钮(input type=file)的样式很难自定义，可以隐藏它然后用一个按钮来触发这个按钮
 24. angular directive里ng-transinclude可以多个嵌入
 ###### 知识点清单创建于2017.9.7 当日重构了该项目前端所有html+css并适应移动端开发
+</pre>

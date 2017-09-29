@@ -22,6 +22,7 @@ webpack目前没有弄热运行，只有编译打包
     http://localhost:8081/
     
 ## vue相关知识点
+<pre>
 1. 必须要用webpack进行编译打包，每次前端需要运行webpack（未弄热运行）
 2. 每个template里面只能有一个父级div。最好加上当页名的class，来设置当页整体的css
 3. 路由跳转：this.$router.push
@@ -49,4 +50,5 @@ webpack目前没有弄热运行，只有编译打包
 1. vue给每个组件模板里的标签给了一个当个组件指定的属性，这个属性组件内是相同的，各个组件则是不同的。如"data-v-1777d4c5",css局部化本质就是在用.list-container[data-v-1777d4c5]:hover
 2. vue拥抱经典的 Web 技术,html,css,js三个分离。样式,结构,行为的分离。
 3. vue组件的注册不必在全局注册，可局部注册
+</pre>
 

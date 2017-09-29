@@ -38,6 +38,7 @@ _src/app/assets_ 文件夹里面存放了一些静态文件和外部js文件，�
     http://localhost:8083/
     
 ## angular2相关知识点
+<pre>
 1. angular2用了ES7的新特性(ES6里没实现),decorator装饰器
 2. ES6实现了模板字面量，可用"`"来包含住多行的html
 3. typescript是ES6的超集,有ES7及以上的一些特性,直接体现在装饰器和强类型
@@ -69,4 +70,4 @@ _src/app/assets_ 文件夹里面存放了一些静态文件和外部js文件，�
 29. typescript里面写函数回调。函数参数写callback: (xxx:object) => void
 30. angular2 关于http模块有2个,一个Http,比较旧,另一个HttpClient比较新并增加了事件进度监听
 31. angular2 事件进度监听是用HttpClient里设置reportProgress为true实现的
-
+</pre>

@@ -20,8 +20,9 @@ webpack目前没有弄热运行，只有编译打包
 #### 谷歌浏览器进入本地网址，F12调出控制台设置成手机模式
 
     http://localhost:8082/
-    
+
 ## react相关知识点
+<pre> 
 1. webpack --progress --colors 可在git bash下显示颜色和进度
 2. react路由v4.0以上是用react-router-dom,且调用机制与v4.0以下是不一样的
 3. react里面css处理必用dom的className属性而不是class，组件局部css需使用react-css-module且局部css用styleName
@@ -50,4 +51,4 @@ webpack目前没有弄热运行，只有编译打包
 26. qiniu服务器端7+版本与6及以下使用方法不一样，这里用的6.1.13版本
 27. jq实现form-data上传需要把data序列化,使用processData: false
 28. jq上传下载文件获取进度是通过额外创建XHR来监听progress实现的
-
+</pre>
