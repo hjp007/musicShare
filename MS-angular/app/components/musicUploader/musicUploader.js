@@ -64,8 +64,9 @@ angular.module('myApp').directive('musicUploader',['$http','$rootScope','localSt
                                   $http.post('createSong', postData)
                                       .success(function (data) {
                                           if(data.result==='success'){
-                                              $rootScope.alert("操作成功！");
-                                              window.location.reload(); 
+                                              $rootScope.alert("操作成功！", function(){
+                                                window.location.reload(); 
+                                              });
                                           } else{
                                               $rootScope.alert(data.message);
                                           }

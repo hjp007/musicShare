@@ -10,4 +10,8 @@ angular.module('myApp').controller("mainController",["$scope","$state","$statePa
 		$state.go('home');
 	}
 
+	$scope.toApply = function(){
+		$state.go('apply'); 
+	}
+
 }]);

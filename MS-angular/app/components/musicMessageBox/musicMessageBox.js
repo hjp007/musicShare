@@ -12,7 +12,8 @@ angular.module('myApp').directive('musicMessageBox', function($rootScope) {
 					callback : callback
 				}
 				$("#messageBox").modal();
-				$rootScope.$apply(); 	
+				if(!$rootScope.$$phase)
+					$rootScope.$apply(); 
 			}
 			$rootScope.confirm = function(message, callback) {
 				$rootScope.messageBox = {
@@ -21,7 +22,8 @@ angular.module('myApp').directive('musicMessageBox', function($rootScope) {
 					callback : callback
 				}
 				$("#messageBox").modal();
-				$rootScope.$apply(); 	
+				if(!$rootScope.$$phase)
+					$rootScope.$apply(); 	
 			}
 			$scope.callback = function(){
 				if($rootScope.messageBox.callback)

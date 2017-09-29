@@ -1,12 +1,12 @@
-<div class="container login">
+<div class="container apply">
 
 	<music-nav show-name="false">
 		<li ng-click="toMain()">返回首页</li>
+		<li ng-click="toLogin()">返回登录页</li>
 	</music-nav>
-
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-    		<h3 class="panel-title">音乐分享平台</h3>
+    		<h3 class="panel-title">注册账号</h3>
   		</div>
   		<div class="panel-body">
 		    <div class="form-group">
@@ -17,9 +17,12 @@
 			    <label>密码</label>
 			    <input type="password" class="form-control" placeholder="请输入密码" ng-model="password">
 			</div>
+			<div class="form-group">
+			    <label>兴趣</label>
+			    <input type="text" class="form-control" placeholder="请输入兴趣" ng-model="interest">
+			</div>
 			<div class="row">
-				<button class="btn btn-primary col-xs-3 col-xs-offset-2" ng-click="toHome()">登录</button>
-				<button class="btn btn-success col-xs-3 col-xs-offset-2" ng-click="toApply()">注册</button>
+				<button class="btn btn-danger col-xs-4 col-xs-offset-4" ng-click="applyAccount()">注册账号</button>
 			</div>
   		</div>
 	</div>

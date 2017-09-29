@@ -13,6 +13,11 @@ m1.config(["$stateProvider","$urlRouterProvider",function($stateProvider,$urlRou
 			templateUrl : "views/login.html" ,
 			controller : "loginController" ,
 			css : "css/login.css"
+		}).state("apply",{
+			url : "/apply" ,
+			templateUrl : "views/apply.html" ,
+			controller : "applyController" ,
+			css : "css/apply.css"
 		}).state("home",{
 			url : "/home" ,
 			templateUrl : "views/home.html" ,
