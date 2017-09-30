@@ -80,6 +80,10 @@
 ###### 个人主页面
 ![](doc/home_page.png) 
 
+### apply
+###### 注册账号页面
+![](doc/apply_page.png) 
+
 ### checkFriendRequest
 ###### 好友管理页面
 ![](doc/checkFriendRequest_page.png) 
@@ -204,4 +208,5 @@ https://zanjs.com/2017/08/22/nodejs/sh-1-node-Permission-denied/
 即将增加react框架同时使用redux状态管理的版本
 
 即将增加react native
+
 ######文档更新于2017.9.28
