@@ -45,5 +45,6 @@
 28. angular应用可以用run来定义rootScope全局函数或者进行一些初始化操作($rootScope不能赋值)
 29. 项目的提示确认框是通过调用全局函数和modal函数来动态生成样式和数据的
 30. 可以用$scope或$rootScope下面的$$phase来检测当前是否是在脏数据检查中
+31. 手机端mp3上传时会被转成'audio/mpeg',wma上传时会被转成'audio/x-ms-wma'
 ###### 知识点清单创建于2017.9.7 当日重构了该项目前端所有html+css并适应移动端开发
 </pre>
