@@ -159,7 +159,7 @@ angular2项目需要额外安装angular-cli
 
 	npm install
 
-如果安装过慢或失败，请参考[部署特别说明条目](#deploy)第五条，新建npm镜像
+如果安装过慢或失败，请参考[部署特别说明条目](#deployList)第五条，新建npm镜像
 如有需要编译，则运行
 
 	npm run build
@@ -187,7 +187,7 @@ angular2项目需要额外安装angular-cli
 	}
 
 附加：部署特别说明条目
-<pre id="deploy">
+<pre id="deployList">
 1、阿里云里面部署需要配置安全组来设置开放端口
 2、mongod命令如果要fork，需要制定logpath到一个文件而非文件夹
 3、node,npm安装之后ln -s软链接需要两边参数都是全局的,不能用"./"或'../'
