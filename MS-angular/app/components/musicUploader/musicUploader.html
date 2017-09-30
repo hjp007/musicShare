@@ -2,6 +2,10 @@
 	<input type="file" id="uploader" onchange="angular.element(this).scope().upload(event)" accept='.wav,.aif,.aiff,.flac,.alac,.aac,.ogg,.mp3'/>
 	<button class='btn btn-success col-xs-4 col-xs-offset-4' onclick="document.getElementById('uploader').click()">点击上传</button>
 </div>
+<span ng-show="isBeforeUploading">
+	校验成功，正准备上传，请等待。
+</span>
+
 <div ng-show="percentage!=0">
 	<h2 class="text-danger">上传进度</h2>
 	<div class="progress">
