@@ -139,18 +139,45 @@
 
 <h2 id="deploy">部署说明</h2>
 
-项目需要安装node,npm与webpack的指令，这里不再赘述
+项目如果想自己拉下来运行项目，可按下面操作
 
-关于数据库的搭建，请下载mongoDB
+项目需要安装node,npm
 
-数据库的可视化操作可使用Studio 3T软件来查看
+node与npm安装不再说明
 
-数据库需要本地搭建，如果需要远程，请进入各个项目的 *proxy* 文件夹，修改下面的代码
+除angular项目外需要安装webpack
+
+	npm install webpack -g
+
+angular2项目需要额外安装angular-cli
+
+	npm install angular-cli -g
+
+数据库不需要本地搭建，可以直接使用我的数据库
+
+进入对应项目安装依赖文件
+
+	npm install
+
+如果安装过慢或失败，请参考[部署特别说明条目](#deploy)第五条，新建npm镜像
+如有需要编译，则运行
+
+	npm run build
+
+运行
+
+	node index.js
+
+具体安装可以参考各项目里的README.md
+
+如果需要使用自己的数据库，请进入各个项目的 *proxy* 文件夹，修改下面的代码
 
     exports.DB = {
-	    uri: "mongodb://localhost:27017/musicSharing",
+	    uri: "mongodb://47.92.85.220:27017/musicSharing",
 	    auth: false
 	};
+
+提示：数据库的可视化操作可使用Studio 3T软件来查看
 
 七牛云目前使用我本人的账号，存储空间有限，如果想使用自己的七牛云，请修改公钥和私钥，请进入各个项目的 *proxy* 文件夹，修改下面的代码
 
@@ -159,7 +186,22 @@
 		SECRET_KEY : '2x3FE_0qdXySDn8QtbZ85Dh58gr3Yyo9nLV6ehFr'
 	}
 
+附加：部署特别说明条目
+<pre id="deploy">
+1、阿里云里面部署需要配置安全组来设置开放端口
+2、mongod命令如果要fork，需要制定logpath到一个文件而非文件夹
+3、node,npm安装之后ln -s软链接需要两边参数都是全局的,不能用"./"或'../'
+4、pm2在安装好之后需要额外一次软链接
+5、npm安装有时失败是因为国内防火墙，可设置镜像，参考网址如下：
+http://cnodejs.org/topic/4f9904f9407edba21468f31e
+6、pm2命名参数 --name "项目名称"
+7、linux下npm安装时报node permission denied权限问题时，解决方法网址：
+https://zanjs.com/2017/08/22/nodejs/sh-1-node-Permission-denied/
+</pre>
 <h2 id="next">后续更新</h2> 
 即将增加vue框架同时使用vuex状态管理的版本
 
+即将增加react框架同时使用redux状态管理的版本
+
+即将增加react native
 ######文档更新于2017.9.28
