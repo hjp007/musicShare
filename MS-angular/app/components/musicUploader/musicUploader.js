@@ -7,7 +7,7 @@ angular.module('myApp').directive('musicUploader',['$http','$rootScope','localSt
         $scope.percentage = 0; 
         $scope.id = localStorageService.get("identity");
         $scope.accepts = {
-          checkType : ['audio/mp3','audio/wav','audio/wma','audio/ogg'], 
+          checkType : ['audio/mp3','audio/wav','audio/wma','audio/ogg','audio/mpeg', 'audio/x-ms-wma'], //手机会被转成mpeg,x-ms-wma格式
           maxSize : 11000000
         }
         $scope.contains = function(arr, obj) {
@@ -50,7 +50,10 @@ angular.module('myApp').directive('musicUploader',['$http','$rootScope','localSt
                               uploadEventHandlers: {
                                   progress: function(e) {
                                       $scope.percentage = Math.round(e.loaded*100/e.total);
-                                  }
+				      if($scope.$$phase){
+				      	$scope.$apply();
+  			   	      }
+                                 } 
                               }
                           })
                           .success(function(data) {
