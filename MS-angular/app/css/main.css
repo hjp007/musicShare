@@ -1,4 +1,11 @@
-img{
-	padding-top: 20px;
-	margin-bottom: 20px;
+.logo{
+    width:200px;
+    margin:0 auto;
+}
+.version_logo{
+    width:60px;
+    margin:0 auto;
+}
+.version_text{
+    text-align: center;
 }
