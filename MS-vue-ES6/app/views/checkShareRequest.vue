@@ -13,15 +13,24 @@
     <div class="checkShareList">
         <span v-if="shareRequests.length==0" class="text-danger">无</span>
         <ul v-if="shareRequests.length!=0" class="list-group">
-
             <li class="list-group-item" v-for="shareRequest in shareRequests">
-                <p>歌曲名称：<span class='fr'>{{shareRequest.song.name}}</span></p>
-                <p>发起人：<span class='fr'>{{shareRequest.owner.name}}</span></p>
-                <p>接收人：<span class='fr'>{{shareRequest.target.name}}</span></p>
-                <p>类型：
-                    <span class='fr' v-if="shareRequest.owner.name==user.name">发起</span>
-                    <span class='fr' v-if="shareRequest.target.name==user.name">接收</span>
-                </p>
+                <div class="row">
+                    <span class="col-xs-4">歌曲名称：</span>
+                    <span class="col-xs-8 text-right">{{shareRequest.song.name}}</span>
+                </div>
+                <div class="row">
+                    <span class="col-xs-4">发起人：</span>
+                    <span class="col-xs-8 text-right">{{shareRequest.owner.name}}</span>
+                </div>
+                <div class="row">
+                    <span class="col-xs-4">接收人：</span>
+                    <span class="col-xs-8 text-right">{{shareRequest.target.name}}</span>
+                </div>
+                <div class="row">
+                    <span class="col-xs-4">类型：</span>
+                    <span class="col-xs-8 text-right" v-if="shareRequest.owner.name==user.name">发起</span>
+                    <span class="col-xs-8 text-right" v-if="shareRequest.target.name==user.name">接收</span>
+                </div>
                 <div class="row" v-if="shareRequest.target.name==user.name&&shareRequest.status==0">
                     <button class="btn btn-success col-xs-3 col-xs-offset-2" @click="replyShareRequest(shareRequest._id, 1)">同意请求</button>
                     <button class="btn btn-danger col-xs-3 col-xs-offset-2" @click="replyShareRequest(shareRequest._id, 2)">拒绝请求</button>
@@ -87,6 +96,7 @@
 <script>
 import musicNav from '../components/musicNav'
 import musicModal from '../components/musicModal'
+import bus from '../bus'
 export default {
     components : {
         musicNav, 
@@ -112,7 +122,7 @@ export default {
                     this.user = response.data.data.user
                     this.shareRequests = response.data.data.shareRequests
                 } else {
-                    alert(response.data.message)
+                    bus.$emit('alert', response.data.message)
                 }
             }, function (err) {
 
@@ -124,10 +134,10 @@ export default {
             this.friendName = friend.name
         },
         selectSong(song){
-            this.shareOperationStatus = 0;
+            this.shareOperationStatus = 0
             if(this.friendName == ""){
-                alert("未知错误！"); 
-                return; 
+                bus.$emit('alert', "未知错误！")
+                return
             }
             let postData = {
                 id : this.id, 
@@ -137,10 +147,11 @@ export default {
             this.$http.post('addShare', postData)
                 .then(function (response) {
                     if(response.data.result==='success'){
-                        alert("分享已经发送！")
-                        window.location.reload()
+                        bus.$emit('alert', "分享已经发送！", ()=>{
+                            window.location.reload()
+                        })
                     } else {
-                        alert(response.data.message)
+                        bus.$emit('alert', response.data.message)
                     }
                 }, function (err) {
 
@@ -157,10 +168,11 @@ export default {
             this.$http.post('replyShareRequest', postData)
                 .then(function (response) {
                     if(response.data.result==='success'){
-                        alert("您的回复已经发送！歌曲会出现在您列表里！")
-                        window.location.reload()
+                        bus.$emit('alert', "您的回复已经发送！歌曲会出现在您列表里！", ()=>{
+                            window.location.reload()
+                        })
                     } else {
-                        alert(response.data.message)
+                        bus.$emit('alert', response.data.message)
                     }
                 }, function (err) {
 

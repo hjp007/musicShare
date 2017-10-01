@@ -17,6 +17,7 @@ import './style.css'
 
 import main from './views/main'
 import login from './views/login'
+import apply from './views/apply'
 import home from "./views/home"
 import checkShareRequest from './views/checkShareRequest'
 import checkFriendRequest from './views/checkFriendRequest'
@@ -26,14 +27,20 @@ const routes = [
   { path: '/login',              name:'login',             component: login }, 
   { path: '/checkFriendRequest', name:'checkFriendRequest',component: checkFriendRequest }, 
   { path: '/checkShareRequest',  name:"checkShareRequest", component : checkShareRequest }, 
-  { path: '/home',               name:"home",              component: home }
+  { path: '/home',               name:"home",              component: home },
+  { path: '/apply',              name:"apply",             component: apply }
 ]
 
 const router = new VueRouter({
   routes 
 }) 
 
+import musicMessageBox from './components/musicMessageBox'  //全局组件
+
 const app = new Vue({
-  router
+  	router,
+	components : {
+		musicMessageBox
+	}
 }).$mount('#app')
 

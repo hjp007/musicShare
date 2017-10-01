@@ -45,11 +45,16 @@
     <div v-if="tab=='UploadTab'" class="uploadPage">
         <music-uploader v-bind:id="id"></music-uploader>
     </div>
+    <div class="audioDiv" v-if="musicFlag">
+        <audio controls autoplay :src="musicUrl">
+        </audio>        
+    </div>
 </div>
 </template>
 <script>
 import musicUploader from '../components/musicUploader'
 import musicNav from '../components/musicNav'
+import bus from '../bus'
 export default {
 	components : {
         musicUploader, 
@@ -62,7 +67,9 @@ export default {
             user : {
             	songs : [], 
             	friends : []
-            }
+            },
+            musicFlag : false,
+            musicUrl : ""
         }
     },
     created() {
@@ -76,7 +83,7 @@ export default {
                 if(response.data.result==='success'){
                     this.user = response.data.data
                 } else {
-                    alert(response.data.message)
+                    bus.$emit('alert', response.data.message)
                 }
             }, function (err) {
 
@@ -84,12 +91,14 @@ export default {
     }, 
     methods:{
         download(url){
+            var _this = this
             this.$http.get('downloadSong?url=' + url)
                     .then(function (response) {
                         if(response.data.result==='success'){
-                            window.open(response.data.data)
+                            _this.musicFlag = true
+                            _this.musicUrl = response.data.data
                         } else {
-                            alert(response.data.message)
+                            bus.$emit('alert', response.data.message)
                         }
                     }, function (err) {
 
@@ -121,5 +130,17 @@ export default {
 .friendList .list-group-item span{
 	line-height: 34px; 
 	height: 34px; 
+}
+.audioDiv{
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width:100%;
+    height: 48px; 
+    box-sizing: content-box;
+}
+.audioDiv audio{
+    width: 100%;
+    height: 100%;
 }
 </style>

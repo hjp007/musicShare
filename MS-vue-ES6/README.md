@@ -46,6 +46,11 @@ webpack目前没有弄热运行，只有编译打包
 21. vue子组件嵌入div方法是标签slot,多个嵌入可以通过给slot的name赋值实现
 22. 因为未知bug，七牛前端上传sdk已被废弃。由自写代码form-data post替代
 23. v-on缩写为"@",v-bind缩写为":"
+24. vue子组件向外传递数据使用$emit,冒泡给父组件用$on来获取
+25. 非父子组件通信是通过新建额外的vue实例来使用$emit和$on实现
+26. 该项目的messageBox就是用非父子组件通信实现。（messageBox是app级别的全局组件，不被页面组件包含）
+27. 纯js可以使用bind(this)来使this指向不改变
+28. vue对于静态资源，如果是路径资源需要require，如12条。而是如果是http的资源，则不需require或者其他的操作就可以直接使用
 ###### 框架机制理解：
 1. vue给每个组件模板里的标签给了一个当个组件指定的属性，这个属性组件内是相同的，各个组件则是不同的。如"data-v-1777d4c5",css局部化本质就是在用.list-container[data-v-1777d4c5]:hover
 2. vue拥抱经典的 Web 技术,html,css,js三个分离。样式,结构,行为的分离。

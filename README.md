@@ -3,7 +3,7 @@
 
 该项目使用四种主流框架搭建
 
-##在线项目展示
+## 在线项目展示（目前只适配了手机端，电脑端进入请进入手机端适配模式）
 
 `angular` http://47.92.85.220:8080
 
@@ -96,7 +96,12 @@
 ![](doc/checkShareRequest3_page.png) 
 
 <h2 id="components">项目自制组件说明</h2> 
-项目一共用了3个自制组件，分别用框架不同形式构建
+项目一共用了4个自制组件，分别用框架不同形式构建，其中musicMessageBox比较特殊，是全局的组件
+### musicMessageBox
+###### 信息提示与确认框（封装了bootstrap的UI,封装方法与musicModal有很大不同）
+![](doc/musicMessageBox_component.png) 
+![](doc/musicMessageBox_component2.png) 
+
 
 ### musicNav
 ###### 用于跳转的导航栏（封装了bootstrap的UI）
@@ -107,7 +112,7 @@
 ![](doc/musicUploader_component.png) 
 
 ### musicModal
-###### 点击弹出的拟态框（封装了bootstrap的UI）
+###### 点击弹出的拟态框（封装了bootstrap的UI,封装方法与musicMessageBox有很大不同）
 ![](doc/checkShareRequest2_page.png) 
 
 <h2 id='database'>数据库说明</h2> 
@@ -209,4 +214,4 @@ https://zanjs.com/2017/08/22/nodejs/sh-1-node-Permission-denied/
 
 即将增加react native
 
-######文档更新于2017.9.28
+###### 文档更新于2017.9.28

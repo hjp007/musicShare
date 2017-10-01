@@ -38,7 +38,7 @@ module.exports = {
                 use: [ 'style-loader', 'css-loader' ]
             },
             { 
-                test: /\.(png|jpg|woff|woff2|eot|ttf|svg)$/, 
+                test: /\.(png|jpg|woff|woff2|eot|ttf|svg)$/,       //这里要加上音乐文件 
                 loader: 'url-loader?limit=1024&name=images/[name].[ext]' 
             }
         ]

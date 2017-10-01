@@ -7,8 +7,11 @@
     <img src="http://www.cio.com.cn/source/attachments/image/20150810/20150810105138_30376.jpg" class="img-responsive" alt="欢迎使用音乐分享平台">
 
     <div class="row" v-if="!id">
-        <button class="btn btn-primary col-xs-6 col-xs-offset-3" @click="toLogin()" >
+        <button class="btn btn-primary col-xs-3 col-xs-offset-2" @click="toLogin()">
             <span>点此登录</span>
+        </button>
+        <button class="btn btn-success col-xs-3 col-xs-offset-2" @click="toApply()">
+            <span>注册</span>
         </button>
     </div>
     <div class="row" v-if="id">
@@ -39,6 +42,11 @@ export default {
         }, 
         toHome(){
             this.$router.push({name:'home'})
+        }, 
+        toApply(){
+            this.$router.push({name:'apply'})
+
+        
         }
     }
 }

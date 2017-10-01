@@ -57,6 +57,7 @@
 
 <script>
 import musicNav from '../components/musicNav'
+import bus from '../bus'
 export default {
     components : {
         musicNav
@@ -85,7 +86,7 @@ export default {
                     this.user = response.data.data.user
                     this.friendRequests = response.data.data.friendRequests
                 } else {
-                    alert(response.data.message)
+                    bus.$emit('alert', response.data.message)
                 }
             }, function (err) {
 
@@ -93,6 +94,14 @@ export default {
     }, 
     methods:{
         searchFriend(){
+            if(this.searchuser===""){
+                bus.$emit('alert', "请填写名称！")
+                return
+            }
+            if(this.searchuser===this.user.name){
+                bus.$emit('alert', "请不要写自己的名字！")
+                return
+            }
             this.$http.get('searchFriend?username='+this.searchuser)
                 .then(function (response) {
                     if(response.data.result==='success'){
@@ -101,7 +110,7 @@ export default {
                             show: true                 
                         }
                     } else {
-                        alert(response.data.message)
+                        bus.$emit('alert', response.data.message)
                         this.emshow = {
                             show: false                 
                         }
@@ -118,10 +127,11 @@ export default {
             this.$http.post('addFriend', postData)
                 .then(function (response) {
                     if(response.data.result==='success'){
-                        alert("您的请求已经发送，等待对方确认！")
-                        window.location.reload()
+                        bus.$emit('alert', "您的请求已经发送，等待对方确认！", ()=>{
+                            window.location.reload()
+                        })
                     } else {
-                        alert(response.data.message)
+                        bus.$emit('alert', response.data.message)
                     }
                 }, function (err) {
 
@@ -135,10 +145,11 @@ export default {
             this.$http.post('replyFriendRequest', postData)
                 .then(function (response) {
                     if(response.data.result==='success'){
-                        alert("您的回复已经发送！") 
-                        window.location.reload()
+                        bus.$emit('alert', "您的回复已经发送！", ()=>{
+                            window.location.reload()
+                        })
                     } else {
-                        alert(response.data.message)
+                        bus.$emit('alert', response.data.message)
                     }
                 }, function (err) {
 
