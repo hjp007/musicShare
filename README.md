@@ -97,6 +97,7 @@
 
 <h2 id="components">项目自制组件说明</h2> 
 项目一共用了4个自制组件，分别用框架不同形式构建，其中musicMessageBox比较特殊，是全局的组件
+
 ### musicMessageBox
 ###### 信息提示与确认框（封装了bootstrap的UI,封装方法与musicModal有很大不同）
 ![](doc/musicMessageBox_component.png) 
