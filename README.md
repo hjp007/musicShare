@@ -1,6 +1,11 @@
 # musicShare
 音乐分享平台（同一项目，四种主流框架搭建）
 
+![](doc/main_page_angular.png) 
+![](doc/main_page_vue.png) 
+![](doc/main_page_react.png) 
+![](doc/main_page_angular2.png) 
+
 该项目使用四种主流框架搭建，项目本身很简单，可能让您见笑，但功能不是目的，本人更希望这份项目能够帮助更多的人学会运用前端不同的框架与了解它们的之间的差别
 
 ## 在线项目展示（目前只适配了手机端，电脑端进入请进入手机端适配模式）
@@ -9,7 +14,7 @@
 
 `vue` http://47.92.85.220:8081
 
-`react` http://47.92.85.220:8082
+`react` http://47.92.85.220:8082/#/main
 
 `angular2` http://47.92.85.220:8083
 
@@ -70,7 +75,7 @@
 
 ### main
 ###### 首页欢迎页面
-![](doc/main_page.png) 
+![](doc/main_page_vue.png) 
 
 ### login
 ###### 登录页面
