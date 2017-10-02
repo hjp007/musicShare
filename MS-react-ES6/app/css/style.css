@@ -4,3 +4,7 @@
 .clear:after{content:""; display: table; clear:both; }
 
 body { padding-top: 50px; }  /*navbar use*/
+.panel{
+	max-width: 400px;
+	margin:0 auto;
+}

@@ -108,5 +108,6 @@ export default {
     -o-background-size:cover;
     min-height:700px;
     padding-top:20px;
+    width:100%;
 }
 </style>

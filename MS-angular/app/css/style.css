@@ -3,3 +3,7 @@
 .clear{zoom:1;}
 .clear:after{content:""; display: table; clear:both; }
 
+.panel{
+	max-width: 400px;
+	margin:0 auto;
+}

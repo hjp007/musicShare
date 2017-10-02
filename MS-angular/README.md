@@ -9,7 +9,7 @@
 
     npm install
     
-#### 谷歌浏览器进入本地网址，F12调出控制台设置成手机模式
+#### angular版本注意是8080端口
 
     http://localhost:8080/
     

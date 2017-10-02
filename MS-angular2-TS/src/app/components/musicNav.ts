@@ -33,15 +33,6 @@ import { Component, Input } from '@angular/core'
 		.name span{
 			color:red!important;
 		}
-		.navbar-nav {
-			color:white;
-			font-size: 20px;
-		}
-		.navbar-nav li{
-			line-height: 50px;
-			height: 50px;
-			margin:0 5%;
-		}
 	`]
 })
 export class MusicNav {

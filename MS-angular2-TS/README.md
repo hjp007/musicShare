@@ -33,7 +33,7 @@ _src/app/assets_ 文件夹里面存放了一些静态文件和外部js文件，�
 
 	ng build
 
-#### 谷歌浏览器进入本地网址，F12调出控制台设置成手机模式
+#### angular2版本注意是8083端口
 
     http://localhost:8083/
     
