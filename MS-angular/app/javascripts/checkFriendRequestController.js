@@ -54,10 +54,42 @@ angular.module('myApp').controller("checkFriendRequestController",["$scope","$ro
             })
     };
 
-    $scope.friendRequest = function (){ 
+    $scope.timer = null;
+    $scope.resultUsers = [];   //成功时的数据
+    $scope.resultMessage = "";  //失败时的信息
+    $scope.searchingStatus = "before";   //4个状态 before search over 
+    $scope.dynamicSearch = function(){
+    	if($scope.searchuser===""){
+        	$scope.resultUsers = [];
+        	$scope.resultMessage = "请填写名称！";
+        	$timeout.cancel($scope.timer);
+        	return;
+    	}
+		$timeout.cancel($scope.timer);
+		$scope.timer = $timeout(function(){
+			//正在搜索字样也不要立刻就展示,如果300毫秒内拿到结果了就不展示了
+			$scope.searchingStatus = "before";   
+    		setTimeout(function(){
+    			if($scope.searchingStatus != "over")
+    				$scope.searchingStatus = "search";
+    		}, 300);   
+    		//500毫秒后查找
+			$http.get('searchFriends?username=' + $scope.searchuser + '&myname=' + $scope.user.name)
+	            .success(function (data) {
+    				$scope.searchingStatus = "over";
+			        if(data.result==='success'){
+		                $scope.resultUsers = data.data;
+			        } else{
+			        	$scope.resultUsers = [];
+			        	$scope.resultMessage = data.message;
+			        }  	
+	            })
+		},500);
+    }
+    $scope.friendRequest = function (user){ 
         var postData = {
            "id" : $scope.id,
-           "friendName" : $scope.result.name
+           "friendName" : user.name
         }  
         $http.post('addFriend', postData)
             .success(function (data) {

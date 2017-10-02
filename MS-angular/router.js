@@ -81,6 +81,24 @@ route.get('/searchFriend',function(req,res,next){
     });
 });
 
+
+route.get('/searchFriends',function(req,res,next){
+    co(function*(){
+        var users = [];
+        users = yield User.find({"name" : {
+            $regex : new RegExp(req.query.username), 
+            $ne : req.query.myname
+        }}).limit(5); 
+        if(users.length == 0)
+            return Config.FAIL("0015"); 
+        return Config.SUCCESS(users); 
+    }).then(function(data){
+        res.json(data);
+    }, function(e){
+        logger.info(e); 
+    });
+});
+
 route.post('/addFriend',function(req,res,next){
     co(function*(){
         //check exist
@@ -94,9 +112,9 @@ route.post('/addFriend',function(req,res,next){
         if(origin._id == target._id)
             return Config.FAIL("0010");
         //check duplicate request    !!!!!!!!!!!!!!!!!!!1
-        var partA = yield FriendRequest.find({"origin" : origin._id});
-        var partB = yield FriendRequest.find({"target" : origin._id});
-        if((partA && partA.target == target._id)||(partB && partB.origin == target._id))
+        var partA = yield FriendRequest.findOne({"origin" : origin._id, "target": target._id});
+        var partB = yield FriendRequest.findOne({"target" : origin._id, "origin": target._id});
+        if(partA||partB)
             return Config.FAIL("0011");
         //add
         var friendRequest = new FriendRequest({

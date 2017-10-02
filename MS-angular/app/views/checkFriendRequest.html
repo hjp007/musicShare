@@ -36,19 +36,21 @@
 	<div ng-show="tab=='AddTab'" class="addChart">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-	    		<h3 class="panel-title">查找好友姓名</h3>
+	    		<h3 class="panel-title">查找好友姓名（最多同时显示5条）</h3>
 	  		</div>
 	  		<div class="panel-body">
-	  			<input type="text" class="form-control" ng-model="searchuser">
-	  			<div class="row">
-		    		<button class="btn btn-primary search col-xs-6 col-xs-offset-3" ng-click="searchFriend()">查找</button>
-	  			</div>
-		    	<div ng-show="emshow.show">
-		    		<p>姓名：<span class='fr'>{{result.name}}</span></p>
-		    		<p>兴趣：<span class='fr'>{{result.interest}}</span></p>
-		    		<div class="row">
-		    			<button class="btn btn-primary col-xs-6 col-xs-offset-3" ng-click="friendRequest()">发起请求</button>
+	  			<input type="text" class="form-control search" ng-model="searchuser" ng-change="dynamicSearch()">
+		    	<div ng-show="resultUsers.length != 0 && searchingStatus != 'search'" ng-repeat="user in resultUsers">
+		    		<div class="row container">
+		    			<p class="col-xs-7">姓名：{{user.name}}</span></p>
+		    			<button class="btn btn-primary col-xs-4 col-offset-1" ng-click="friendRequest(user)">发起请求</button>
 		    		</div>
+		    	</div>
+		    	<div ng-show="resultUsers.length == 0 && searchingStatus != 'search'">
+		    		<p>{{resultMessage}}</p>
+		    	</div>		    	
+		    	<div ng-show="searchingStatus == 'search'">
+		    		<p>正在搜索中...</p>
 		    	</div>
 	  		</div>
 		</div>

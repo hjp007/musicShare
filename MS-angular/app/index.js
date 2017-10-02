@@ -38,6 +38,7 @@ m1.config(["$stateProvider","$urlRouterProvider",function($stateProvider,$urlRou
  		$urlRouterProvider.when("","/"); 
 		$urlRouterProvider.otherwise('/error');
 }]);
+//angular加载好后运行，这里销毁loading动画节约浏览器内存
 m1.run(['$rootScope', function($rootScope) {
-	window.clearInterval(loadingInterval)  //清除loading
+	window.clearInterval(loadingInterval)  
 }]);

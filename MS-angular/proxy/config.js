@@ -69,6 +69,9 @@
 			case "0014" : 
 				message = "您已有该歌曲，请换歌曲或者重命名";
 				break;
+			case "0015" : 
+				message = "没有这个用户"
+				break;
 			default :
 				message = "未知错误";  
 		}
