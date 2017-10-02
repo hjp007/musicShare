@@ -51,4 +51,6 @@ webpack目前没有弄热运行，只有编译打包
 26. qiniu服务器端7+版本与6及以下使用方法不一样，这里用的6.1.13版本
 27. jq实现form-data上传需要把data序列化,使用processData: false
 28. jq上传下载文件获取进度是通过额外创建XHR来监听progress实现的
+29. react非父子组件通信我是自建bus对象去进行中间处理，对信息进行注册和分发（subscribe和dispatch）
+30. 全局组件的html定义我是放在和Route同级的地方
 </pre>

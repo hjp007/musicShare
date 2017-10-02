@@ -5,6 +5,7 @@ import MusicNav from "../components/MusicNav/MusicNav.jsx"
 import MusicUploader from "../components/MusicUploader/MusicUploader.jsx"
 
 import styles from '../css/home.css'
+import bus from '../bus'
 class Home extends React.Component {
    	render() {
 
@@ -95,6 +96,13 @@ class Home extends React.Component {
 			        </li>
 				</ul>
 				{content}
+        {this.state.musicFlag && 
+          <div className="audioDiv">
+              <audio controls autoPlay src={this.state.musicUrl}>
+              </audio>        
+          </div>
+        }
+
 			</div>
    		)
     }
@@ -107,8 +115,8 @@ class Home extends React.Component {
             	songs : [], 
             	friends : []
             },
-            percentage : 0, 
-            showPercentage : false
+            musicFlag : false, 
+            musicUrl : ""
     	}
   	}
   	componentDidMount(){
@@ -125,15 +133,16 @@ class Home extends React.Component {
                 if(data.result==='success'){
                     _this.setState({user : data.data})
                 } else {
-                    alert(data.message)
+                    bus.dispatch('alert', data.message)
                 }    		
         	}
         )
-
-        //未添加七牛云上传代码
   	}
     download(url){
-    	window.open(url)
+      this.setState({
+        musicFlag : true, 
+        musicUrl : url
+      })
     }
   	toLogin(){
         localStorage.removeItem("identity")
@@ -146,4 +155,4 @@ class Home extends React.Component {
         this.props.history.push("/checkShareRequest")
     }
 }
-export default withRouter(Home, styles)
+export default withRouter(Home)

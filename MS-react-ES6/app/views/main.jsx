@@ -16,10 +16,10 @@ class Main extends React.Component {
    		else
    			mainButton = (
           <div className="row">
-            <button className="btn btn-primary col-xs-3 col-xs-offset-2"  onClick={this.toLogin.bind(this)}>
+            <button className="btn btn-primary col-xs-3 col-xs-offset-2" onClick={this.toLogin.bind(this)}>
               <span>点此登录</span>
             </button>
-            <button className="btn btn-success col-xs-3 col-xs-offset-2">
+            <button className="btn btn-success col-xs-3 col-xs-offset-2" onClick={this.toApply.bind(this)}>
               <span>注册</span>
             </button>
           </div>
@@ -44,7 +44,7 @@ class Main extends React.Component {
             <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2550279230,467606093&fm=200&gp=0.jpg" className="img-responsive logo" alt="欢迎使用音乐分享平台"/>
             <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1952752745,2045652368&fm=15&gp=0.jpg" className="img-responsive version_logo"/>
             <h1 className="version_text">REACT版本</h1>        
-          
+            <p>电脑端使用时请用手机适配模式，目前平台只支持移动端</p>
             <p>这是一个音乐分享平台，实现音乐上传，在线播放，添加好友和给好友分享音乐的功能。</p>
             <p>项目逻辑不复杂，功能不多，本人做这个项目仅供学习，严禁任何人用于商业。</p>
             <p>希望能帮助大家学习框架API的使用，以及对不同框架的差别理解。</p>
@@ -67,8 +67,11 @@ class Main extends React.Component {
 	toLogin(){
 		this.props.history.push("/login")
 	}
-	toHome(){
-		this.props.history.push("/home")
-	}
+  toHome(){
+    this.props.history.push("/home")
+  }
+  toApply(){
+    this.props.history.push("/apply")
+  }
 }
 export default CSSModules(withRouter(Main), styles)

@@ -2,18 +2,19 @@ import React from 'react'
 import {withRouter} from "react-router-dom"
 
 import MusicNav from "../components/MusicNav/MusicNav.jsx"
-import style from '../css/login.css'
+import style from '../css/apply.css'
 import bus from '../bus'
-class Login extends React.Component {
+class Apply extends React.Component {
    	render() {
      	return (
-          <div className="container login">
+          <div className="container apply">
               <MusicNav showName={false}>
                   <li onClick={this.toMain.bind(this)}>返回首页</li>
+                  <li onClick={this.toLogin.bind(this)}>返回登录页</li>
               </MusicNav>
               <div className="panel panel-primary">
                   <div className="panel-heading">
-                      <h3 className="panel-title">音乐分享平台</h3>
+                      <h3 className="panel-title">注册账号</h3>
                   </div>
                   <div className="panel-body">
                       <div className="form-group">
@@ -26,9 +27,13 @@ class Login extends React.Component {
                           <input type="password" className="form-control" placeholder="请输入密码"
                               value={this.state.password} onChange={evt => this.updatePassword(evt)}/>
                       </div>
+                      <div className="form-group">
+                          <label>兴趣</label>
+                          <input type="text" className="form-control" placeholder="请输入兴趣"
+                              value={this.state.interest} onChange={evt => this.updateInterest(evt)}/>
+                      </div>
                       <div className="row">
-                          <button className="btn btn-primary col-xs-3 col-xs-offset-2" onClick={this.toHome.bind(this)}>登录</button>
-                          <button className="btn btn-success col-xs-3 col-xs-offset-2" onClick={this.toApply.bind(this)}>注册</button>
+                          <button className="btn btn-primary col-xs-4 col-xs-offset-4" onClick={this.applyAccount.bind(this)}>注册账号</button>
                       </div>
                   </div>
               </div>
@@ -40,7 +45,8 @@ class Login extends React.Component {
     	this.state = {
       		id: "", 
       		username : "",
-      		password : ""
+      		password : "", 
+          interest : ""
     	}
   	}
 
@@ -50,47 +56,62 @@ class Login extends React.Component {
             this.props.history.push("/home")      
         }
   	}
-    toHome(){
+    applyAccount(){
         if (this.state.username==="") {
             bus.dispatch('alert', "账号不能为空")
-            return
+            return 
         }
-        else if (this.state.password==="") {
+        if (this.state.password==="") {
             bus.dispatch('alert', "密码不能为空")
+            alert("密码不能为空")
+            return 
+        }
+        if (this.state.interest==="") {
+            bus.dispatch('alert', "兴趣不能为空")
             return
         }
         let postData = {
             username : this.state.username, 
-            password : this.state.password
+            password : this.state.password, 
+            interest : this.state.interest
         }
         var _this = this
-        $.post("login", postData,
-            function(data) {
-    				    if(data.result==='success'){
-                    localStorage.setItem("identity", data.data)
-                    _this.props.history.push("/home")  
-                } else {
-                    bus.dispatch('alert', data.message)
-                }
-            }
-        )
+        bus.dispatch('confirm', "确认创建用户" + this.state.username + "吗？", ()=>{
+          $.post("apply", postData,
+              function(data) {
+      				    if(data.result==='success'){
+                      localStorage.setItem("identity", data.data)
+                      _this.props.history.push("/home")  
+                  } else {
+                      setTimeout(()=>{
+                        bus.dispatch('alert', data.message)
+                      },1000)
+                  }
+              }
+          )
+        })
     }
     toMain(){
       this.props.history.push("/main")  
     }    
-    toApply(){
-      this.props.history.push("/apply")  
+    toLogin(){
+      this.props.history.push("/login")  
     }
     updateUsername(evt) {
     	this.setState({
       		username: evt.target.value
     	})
   	}
-  	updatePassword(evt) {
-    	this.setState({
-      		password: evt.target.value
-    	})
-  	}
+    updatePassword(evt) {
+      this.setState({
+          password: evt.target.value
+      })
+    }
+    updateInterest(evt) {
+      this.setState({
+          interest: evt.target.value
+      })
+    }
 
 }
-export default withRouter(Login)
+export default withRouter(Apply)

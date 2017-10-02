@@ -5,21 +5,32 @@ import MusicNav from "../components/MusicNav/MusicNav.jsx"
 import MusicModal from "../components/MusicModal/MusicModal.jsx"
 
 import styles from '../css/checkShareRequest.css'
+import bus from '../bus'
 class CheckShareRequest extends React.Component {
    	render() {
    		let checkShareList = this.state.shareRequests.map((shareRequest, index)=>(
 			<li key={index} className="list-group-item">
-	            <p>歌曲名称：<span className='fr'>{shareRequest.song.name}</span></p>
-	            <p>发起人：<span className='fr'>{shareRequest.owner.name}</span></p>
-	            <p>接收人：<span className='fr'>{shareRequest.target.name}</span></p>
-	            <p>类型：
-	            	{shareRequest.owner.name==this.state.user.name &&
-	                	<span className='fr'>发起</span>
+			    <div className="row">
+                    <span className="col-xs-4">歌曲名称：</span>
+                    <span className="col-xs-8 text-right">{shareRequest.song.name}</span>
+                </div>
+                <div className="row">
+                    <span className="col-xs-4">发起人：</span>
+                    <span className="col-xs-8 text-right">{shareRequest.owner.name}</span>
+                </div>
+                <div className="row">
+                    <span className="col-xs-4">接收人：</span>
+                    <span className="col-xs-8 text-right">{shareRequest.target.name}</span>
+                </div>
+                <div className="row">
+                    <span className="col-xs-4">类型：</span>
+                    {shareRequest.owner.name==this.state.user.name &&
+                    	<span className="col-xs-8 text-right">发起</span>
 	            	}
 	            	{shareRequest.target.name==this.state.user.name &&
-	                	<span className='fr'>接收</span>
+                    	<span className="col-xs-8 text-right">接收</span>
 	            	}
-	            </p>
+                </div>
 	            {shareRequest.target.name==this.state.user.name && shareRequest.status==0 &&
 		            <div className="row">
 		                <button className="btn btn-success col-xs-3 col-xs-offset-2"
@@ -169,7 +180,7 @@ class CheckShareRequest extends React.Component {
                 		shareRequests : data.data.shareRequests
                 	})
                 } else {
-                    alert(data.message)
+                    bus.dispatch('alert', data.message)
                 }
         	}
         ) 
@@ -183,8 +194,8 @@ class CheckShareRequest extends React.Component {
     selectSong(song){
         this.setState({shareOperationStatus : 0})
         if(this.state.friendName == ""){
-            alert("未知错误！"); 
-            return; 
+        	bus.dispatch('alert', "未知错误！")
+            return
         }
         var _this = this
         let postData = {
@@ -195,10 +206,11 @@ class CheckShareRequest extends React.Component {
         $.post('addShare', postData, 
         	(data)=>{
                 if(data.result==='success'){
-                    alert("分享已经发送！")
-                    window.location.reload()
+                	bus.dispatch('alert', "分享已经发送！", ()=>{
+                    	window.location.reload()
+                	})
                 } else {
-                    alert(data.message)
+                    bus.dispatch('alert', data.message)
                 }
         	}
         )
@@ -214,10 +226,11 @@ class CheckShareRequest extends React.Component {
         $.post('replyShareRequest', postData, 
         	(data)=>{
                 if(data.result==='success'){
-                    alert("您的回复已经发送！歌曲会出现在您列表里！")
-                    window.location.reload()
+                	bus.dispatch('alert', "您的回复已经发送！歌曲会出现在您列表里！", ()=>{
+                    	window.location.reload()
+                	})
                 } else {
-                    alert(data.message)
+                    bus.dispatch('alert', data.message)
                 }
         	}
         )   

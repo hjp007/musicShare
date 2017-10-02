@@ -60,6 +60,15 @@
 			case "0011" : 
 				message = "加友记录已存在或已经是好友";
 				break;
+			case "0012" : 
+				message = "参数缺失";
+				break;			
+			case "0013" : 
+				message = "该用户已存在";
+				break;
+			case "0014" : 
+				message = "您已有该歌曲，请换歌曲或者重命名";
+				break;
 			default :
 				message = "未知错误";  
 		}

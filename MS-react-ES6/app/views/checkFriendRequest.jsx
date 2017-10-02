@@ -4,6 +4,7 @@ import {withRouter} from "react-router-dom"
 import MusicNav from "../components/MusicNav/MusicNav.jsx"
 
 import styles from '../css/checkFriendRequest.css'
+import bus from '../bus'
 class CheckFriendRequest extends React.Component {
    	render() {
    		var checkFriendList = this.state.friendRequests.map((friendRequest, index)=>(
@@ -136,28 +137,36 @@ class CheckFriendRequest extends React.Component {
                 		friendRequests : data.data.friendRequests
                 	})
                 } else {
-                    alert(data.message)
+                    bus.dispatch('alert', data.message)
                 }
         	}
         ) 
   	}
-	searchFriend(){
-		var _this = this
-        $.get('searchFriend?username='+ this.state.searchuser,
-        	(data)=>{
-                if(data.result==='success'){
-                    _this.setState({
-                    	result : data.data, 
-                    	emshow : {show:true}
-                    })
-                } else {
-                    alert(data.message)
-                    _this.setState({
-                    	emshow : {show:false}
-                    })
-                }
-        	}
-        )
+    searchFriend(){
+  		var _this = this
+      if(this.state.searchuser===""){
+          bus.dispatch('alert', "请填写名称！")
+          return
+      }
+      if(this.state.searchuser===this.state.user.name){
+          bus.dispatch('alert', "请不要写自己的名字！")
+          return
+      }
+      $.get('searchFriend?username='+ this.state.searchuser,
+      	(data)=>{
+              if(data.result==='success'){
+                  _this.setState({
+                  	result : data.data, 
+                  	emshow : {show:true}
+                  })
+              } else {
+                  bus.dispatch('alert', data.message)
+                  _this.setState({
+                  	emshow : {show:false}
+                  })
+              }
+      	}
+      )
     } 
     friendRequest(){
         let postData = {
@@ -167,10 +176,11 @@ class CheckFriendRequest extends React.Component {
         $.post('addFriend', postData, 
         	(data)=>{
         		if(data.result==='success'){
-                    alert("您的请求已经发送，等待对方确认！")
-                    window.location.reload()
+                    bus.dispatch('alert', '您的请求已经发送，等待对方确认！', ()=>{
+                      window.location.reload()
+                    })
                 } else {
-                    alert(data.message)
+                    bus.dispatch('alert', data.message)
                 }
         	}
         )   
@@ -183,10 +193,11 @@ class CheckFriendRequest extends React.Component {
         $.post('replyFriendRequest', postData
         	,(data)=>{
                 if(data.result==='success'){
-                    alert("您的回复已经发送！") 
-                    window.location.reload()
+                    bus.dispatch('alert', '您的回复已经发送！', ()=>{
+                      window.location.reload()
+                    })
                 } else {
-                    alert(data.message)
+                    bus.dispatch('alert', data.message)
                 }        		
         	}
         )

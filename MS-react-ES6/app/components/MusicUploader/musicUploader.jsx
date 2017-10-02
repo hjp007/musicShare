@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from "./MusicUploader.css"
+import bus from '../../bus'
 
 class MusicUploader extends React.Component{
 	constructor(props) {
@@ -8,7 +9,7 @@ class MusicUploader extends React.Component{
 	        userid: props.userid, 
 	        percentage : 0,  
     		accepts : {
-		        checkType : ['audio/mp3','audio/wav','audio/wma','audio/ogg'], 
+                checkType : ['audio/mp3','audio/wav','audio/wma','audio/ogg','audio/mpeg', 'audio/x-ms-wma'], //手机会被转成mpeg,x-ms-wma格式
 		        maxSize : 11000000
 		    }
 	    }
@@ -28,11 +29,11 @@ class MusicUploader extends React.Component{
         var _this = this
         if (file) {
             if(file.size > this.state.accepts.maxSize){
-                alert("文件超过10M！")
+            	bus.dispatch('alert', "文件超过10M！")
                 return
             }
             if(!this.contains(this.state.accepts.checkType, file.type)){
-                alert("请上传音乐！目前支持mp3,wav,wma,ogg格式！") 
+            	bus.dispatch('alert', "请上传音乐！目前支持mp3,wav,wma,ogg格式！")
                 return
             }
             var formData = new FormData()
@@ -74,10 +75,11 @@ class MusicUploader extends React.Component{
 	                                $.post('createSong', postData, 
 	                                	(data)=>{
 	                                		if(data.result==='success'){
-	                                            alert("操作成功！");
-	                                            window.location.reload() 
+	                                			bus.dispatch('alert', "操作成功！", ()=>{
+	                                            	window.location.reload() 
+	                                			})
 	                                        } else{
-	                                            alert(data.message)
+	                                            bus.dispatch('alert', data.message)
 	                                        }
 	                                	}
 	                                )
@@ -85,7 +87,7 @@ class MusicUploader extends React.Component{
 							}
                         })
                     } else{
-                        alert(data.message);
+                        bus.dispatch('alert', data.message);
                     }
             	}
             )
