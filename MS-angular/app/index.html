@@ -11,16 +11,20 @@
 	<link rel="shortcut icon" href="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1506894416689&di=cdc507824df9c5925ca789c31d07cfc8&imgtype=0&src=http%3A%2F%2Fimg2.web07.cn%2FUpPic%2FPng%2F201506%2F12%2F5113321211214011.png"/> 
 </head>
 <body ng-app="myApp">
-	<div class='main-view' ui-view></div>
+	<div class='main-view' ui-view>
+		<!-- 页面还没有加载出来时调用 -->
+		<canvas id="c" alt="loading动画"></canvas>
+	</div>
 	<music-message-box id="messageBox"></music-message-box>
 </div>
-
 </body>
-	<!-- angular -->
-	<script type="text/javascript" src='/bower_components/angular/angular.min.js'></script>
 	<!-- jquery -->
 	<script type="text/javascript" src='/bower_components/jquery/dist/jquery.min.js'></script>
-	<!-- bootstrap -->
+	<!-- 进度条插件 -->
+	<script type="text/javascript" src='/bower_components/loading.js'></script>
+	<!-- angular -->
+	<script type="text/javascript" src='/bower_components/angular/angular.min.js'></script>
+		<!-- bootstrap -->
 	<script type="text/javascript" src='/bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
 	<!-- angular-ui-router -->
 	<script type="text/javascript" src='/bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
