@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 
-import { ApiService }    from '../api.service';
-
+import { ApiService }    from '../api.service'
+import { BusService }    from '../bus.service'
 
 @Component({
 	selector: 'app-root',
@@ -11,13 +11,14 @@ import { ApiService }    from '../api.service';
 })
 
 export class Login  implements OnInit {
-	id : string
-	username : string
-	password : string
+	id = ""
+	username = ""
+	password = ""
 
 	constructor(
     	private router: Router, 
     	private apiService: ApiService,
+    	private busService: BusService
     ){}
 	ngOnInit() : void {
 		this.id = localStorage.getItem("identity")
@@ -26,20 +27,34 @@ export class Login  implements OnInit {
 	}
 	toMain() : void {
 		this.router.navigate(['/main'])
+	}	
+	toApply() : void {
+		this.router.navigate(['/apply'])
 	}
 	toHome() : void {
 		if (this.username==="") {
-			alert("账号不能为空")
+			this.busService.alert.emit({
+				message: "账号不能为空"
+			})
 			return
 		}
 		else if (this.password==="") {
-			alert("密码不能为空")
+			this.busService.alert.emit({
+				message: "密码不能为空"
+			})
 			return
 		}
 		this.apiService.login(this.username, this.password)
-			.then((userId)=>{
-				localStorage.setItem("identity", userId)
-				this.router.navigate(['/home'])
+			.then((data:any)=>{
+				console.log(data)
+				if(!data.code){
+					localStorage.setItem("identity", data.data)
+					this.router.navigate(['/home'])
+				}else {
+					this.busService.alert.emit({
+						message: data.message
+					})
+				}
 			}) 
 	}
 }

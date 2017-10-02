@@ -7,7 +7,7 @@ import { Router } from '@angular/router'
 	styleUrls: ['../css/main.css']
 })
 export class Main implements OnInit{
-	id : string
+	id = ""
 
 	constructor(
     	private router: Router
@@ -20,5 +20,8 @@ export class Main implements OnInit{
 	}
 	toHome() : void {
 		this.router.navigate(['/home'])
+	}
+	toApply() : void {
+		this.router.navigate(['/apply'])
 	}
 }

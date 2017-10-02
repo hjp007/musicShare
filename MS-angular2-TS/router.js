@@ -14,19 +14,43 @@ var FriendRequest = mongoose.model("FriendRequest");
 var ShareRequest = mongoose.model("ShareRequest"); 
 
 var route = express.Router(); 
-
-route.post('/login',function(req,res,next){
+route.post('/apply', function(req,res,next){
     co(function*(){
-        var user = yield User.findOne({"name" : req.body.username}); 
-        if(!user)
-        	return Config.FAIL("0001");  
-        if(user.password != req.body.password)
-        	return Config.FAIL("0002"); 
+        if(!req.body.username||!req.body.password||!req.body.interest)
+            return Config.FAIL("0012");  
+        //check exists
+        var checkUser = yield User.findOne({"name" : req.body.username}); 
+        if(checkUser)
+            return Config.FAIL("0013");  
+        //add
+        var user = new User({
+            name : req.body.username, 
+            songs : [],  
+            password : req.body.password, 
+            interest : req.body.interest, 
+            friends : [], 
+            share : []
+        });
+        user = yield user.save();
         return Config.SUCCESS(user._id);
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
+    });  
+})
+route.post('/login',function(req,res,next){
+    co(function*(){
+        var user = yield User.findOne({"name" : req.body.username}); 
+        if(!user)
+            return Config.FAIL("0001");  
+        if(user.password != req.body.password)
+            return Config.FAIL("0002"); 
+        return Config.SUCCESS(user._id);
+    }).then(function(data){
+        res.json(data);
+    }, function(e){
+        logger.info(e); 
     });
 });
 
@@ -35,12 +59,12 @@ route.get('/user',function(req,res,next){
     co(function*(){
         var user = yield User.findOne({"_id" : req.query.id}).populate("friends songs"); 
         if(!user)
-        	return Config.FAIL("0003"); 
+            return Config.FAIL("0003"); 
         return Config.SUCCESS(user); 
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
     });
 });
 
@@ -85,7 +109,7 @@ route.post('/addFriend',function(req,res,next){
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
     });
 });
 
@@ -105,7 +129,7 @@ route.get('/checkFriendRequest',function(req,res,next){
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
     });
 });
 
@@ -129,7 +153,7 @@ route.post('/replyFriendRequest',function(req,res,next){
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
     });
 });
 
@@ -138,9 +162,11 @@ route.post('/replyFriendRequest',function(req,res,next){
 //七牛上传获取token
 route.post('/token',function(req,res,next){
     co(function*(){
-        //const key = crypto.createHash('md5').update(((new Date()) * 1 + Math.floor(Math.random() * 10).toString())).digest('hex')
+        //check exists
+        var song = yield Song.findOne({"name" : req.body.filename}); 
+        if(song)
+            return Config.FAIL("0014"); 
         var key = req.body.id + '-' + req.body.filename;
-        console.log(key);
         var bucket = 'songs';
         var putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
         var token = putPolicy.token();
@@ -202,7 +228,7 @@ route.post('/addShare',function(req,res,next){
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
     });
 });
 
@@ -222,7 +248,7 @@ route.get('/checkShareRequest',function(req,res,next){
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
     });
 });
 
@@ -241,7 +267,7 @@ route.post('/replyShareRequest',function(req,res,next){
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
     });
 });
 
@@ -254,7 +280,7 @@ route.get('/downloadSong',function(req,res,next){
     }).then(function(data){
         res.json(data);
     }, function(e){
-    	logger.info(e); 
+        logger.info(e); 
     });
 });
 

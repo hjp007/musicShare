@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { ApiService }    from '../api.service'
+import { BusService }    from '../bus.service'
+
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http'
 @Component({
 	selector: 'music-uploader',
@@ -8,6 +10,9 @@ import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/c
 			<input type="file" id="uploader" (change)="upload($event)" accept='audio/mp3,audio/wav,audio/wma,audio/ogg'/>
 			<button class='btn btn-success col-xs-4 col-xs-offset-4' onclick="document.getElementById('uploader').click()">点击上传</button>
 		</div>
+		<span *ngIf="isBeforeUploading">
+        	校验成功，正准备上传，请等待。
+    	</span>
 		<div *ngIf="percentage!=0">
 			<h2 class="text-danger">上传进度</h2>
 			<div class="progress">
@@ -25,13 +30,15 @@ import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/c
 })
 export class MusicUploader {
 	percentage = 0
-	id : string
+	id = ""
 	constructor(
     	private apiService: ApiService,
-    	private httpClient: HttpClient
+    	private httpClient: HttpClient, 
+    	private busService: BusService
     ){}
+    isBeforeUploading = false
 	accepts = {
-        checkType : ['audio/mp3','audio/wav','audio/wma','audio/ogg'], 
+        checkType : ['audio/mp3','audio/wav','audio/wma','audio/ogg','audio/mpeg', 'audio/x-ms-wma'], //手机会被转成mpeg,x-ms-wma格式
         maxSize : 11000000
     }
     contains(arr, obj) : boolean {
@@ -49,37 +56,62 @@ export class MusicUploader {
         console.log(file)
         if (file) {
             if(file.size > this.accepts.maxSize){
-                alert("文件超过10M！") 
+            	this.busService.alert.emit({
+            		message:"文件超过10M！"
+            	})
                 return
             }
             if(!this.contains(this.accepts.checkType, file.type)){
-                alert("请上传音乐！目前支持mp3,wav,wma,ogg格式！") 
+            	this.busService.alert.emit({
+            		message:"请上传音乐！目前支持mp3,wav,wma,ogg格式！"
+            	})
                 return
             }
+            this.isBeforeUploading = true
             var formData = new FormData()
             formData.append('file', file)
             this.apiService.token(this.id, file.name)
-            	.then((data)=>{
-                	formData.append('token', data['token'])
-                    formData.append('key', data['key'])
-					this.httpClient.request(new HttpRequest(
-						'POST',
-						'https://up.qbox.me', 
-						formData, 
-						{
-  							reportProgress: true,
-						}
-					)).subscribe(event => {
-	  					if (event.type === HttpEventType.UploadProgress) {
-	    					this.percentage = Math.round(100 * event.loaded / event.total)
-	  					} else if (event instanceof HttpResponse) {
-                    		this.apiService.createSong(this.id, file.name, 'http://oqyw1ztb2.bkt.clouddn.com/' + event['body']['key'])
-                    			.then(()=>{
-                    				alert("操作成功！")
-                    				window.location.reload()
-                    		})
-	  					}
-					})
+            	.then((data:any)=>{
+            		if(!data.code){
+	            		formData.append('token', data.data['token'])
+	                    formData.append('key', data.data['key'])
+						this.httpClient.request(new HttpRequest(
+							'POST',
+							'https://up.qbox.me', 
+							formData, 
+							{
+	  							reportProgress: true,
+							}
+						)).subscribe(event => {
+		  					if (event.type === HttpEventType.UploadProgress) {
+		    					this.percentage = Math.round(100 * event.loaded / event.total)
+		    					if(this.isBeforeUploading == true && this.percentage!=0){
+                                    this.isBeforeUploading = false
+                                }
+		  					} else if (event instanceof HttpResponse) {
+	                    		this.apiService.createSong(this.id, file.name, 'http://oqyw1ztb2.bkt.clouddn.com/' + event['body']['key'])
+	                    			.then((data:any)=>{
+	                    				if(!data.code){
+											this.busService.alert.emit({
+            									message:"操作成功！", 
+            									callback : ()=>{
+	                    							window.location.reload()
+            									}
+            								})
+	                    				} else{
+	                    					this.busService.alert.emit({
+            									message:data.message
+            								})	
+	                    				}
+	                    		})
+		  					}
+						})	
+            		}else {
+            		    this.busService.alert.emit({
+            				message:data.message
+            			})	
+            		}
+    
 				})
           }
     }

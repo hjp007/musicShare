@@ -14,13 +14,23 @@
 		<span *ngIf="shareRequests.length==0" class="text-danger">无</span>
 		<ul *ngIf="shareRequests.length!=0" class="list-group">
 		    <li class="list-group-item" *ngFor="let shareRequest of shareRequests">
-		    	<p>歌曲名称：<span class='fr'>{{shareRequest.song.name}}</span></p>
-		    	<p>发起人：<span class='fr'>{{shareRequest.owner.name}}</span></p>
-		    	<p>接收人：<span class='fr'>{{shareRequest.target.name}}</span></p>
-		    	<p>类型：
-		    		<span class='fr' *ngIf="shareRequest.owner.name==username">发起</span>
-		    		<span class='fr' *ngIf="shareRequest.target.name==username">接收</span>
-		    	</p>
+          <div class="row">
+              <span class="col-xs-4">歌曲名称：</span>
+              <span class="col-xs-8 text-right">{{shareRequest.song.name}}</span>
+          </div>
+          <div class="row">
+              <span class="col-xs-4">发起人：</span>
+              <span class="col-xs-8 text-right">{{shareRequest.owner.name}}</span>
+          </div>
+          <div class="row">
+              <span class="col-xs-4">接收人：</span>
+              <span class="col-xs-8 text-right">{{shareRequest.target.name}}</span>
+          </div>
+          <div class="row">
+              <span class="col-xs-4">类型：</span>
+              <span class="col-xs-8 text-right" *ngIf="shareRequest.owner.name==user.name">发起</span>
+              <span class="col-xs-8 text-right" *ngIf="shareRequest.target.name==user.name">接收</span>
+          </div>
 		    	<div class="row" *ngIf="shareRequest.target.name==username&&shareRequest.status==0">
 		    		<button class="btn btn-success col-xs-3 col-xs-offset-2" (click)="replyShareRequest(shareRequest._id, 1)">同意请求</button>
 		    		<button class="btn btn-danger col-xs-3 col-xs-offset-2" (click)="replyShareRequest(shareRequest._id, 2)">拒绝请求</button>
@@ -30,7 +40,7 @@
 		    </li>
 	  	</ul>		
 	</div>
-    <music-modal [modalId]="'shareModal'">
+    <music-modal>
         <div header>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetStatus()"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel" *ngIf="shareOperationStatus==0">选择好友</h4>
