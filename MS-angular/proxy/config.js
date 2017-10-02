@@ -67,10 +67,16 @@
 				message = "该用户已存在";
 				break;
 			case "0014" : 
-				message = "您已有该歌曲，请换歌曲或者重命名";
+				message = "云端已有该歌曲，请搜索添加即可，无需上传";
 				break;
 			case "0015" : 
 				message = "没有这个用户"
+				break;			
+			case "0016" : 
+				message = "没有这个歌曲"
+				break;
+			case "0017" : 
+				message = "您已有该歌曲，无法添加";
 				break;
 			default :
 				message = "未知错误";  

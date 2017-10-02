@@ -68,6 +68,46 @@ route.get('/user',function(req,res,next){
     });
 });
 
+
+route.get('/searchSongs',function(req,res,next){
+    co(function*(){
+        var songs = [];
+        songs = yield Song.find({"name" : {
+            $regex : new RegExp(req.query.songname) 
+        }}).limit(10); 
+        if(songs.length == 0)
+            return Config.FAIL("0016"); 
+        return Config.SUCCESS(songs); 
+    }).then(function(data){
+        res.json(data);
+    }, function(e){
+        logger.info(e); 
+    });
+});
+
+route.post('/addSongToMyList',function(req,res,next){
+    co(function*(){
+        //check exist
+        var user = yield User.findOne({"_id" : req.body.id});
+        if(!user)
+            return Config.FAIL("0001"); 
+        var song = yield Song.findOne({"_id" : req.body.songId}); 
+        if(!song)
+            return Config.FAIL("0006");
+        for(var i = 0; i < user.songs.length; i++){
+            if(song._id.toString() == user.songs[i].toString())
+                return Config.FAIL("0017"); 
+        }
+        user.songs.push(song._id);
+        yield user.save();
+        return Config.SUCCESS(); 
+    }).then(function(data){
+        res.json(data);
+    }, function(e){
+        logger.info(e); 
+    });
+});
+
 route.get('/searchFriend',function(req,res,next){
     co(function*(){
         var user = yield User.findOne({"name" : req.query.username}); 

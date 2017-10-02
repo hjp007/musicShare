@@ -2,12 +2,20 @@
 	padding-top: 20px; 
 	margin-bottom: 10px; 
 }
+.nav>li>a {
+	padding-left: 14px!important;
+	padding-right: 14px!important;
+}
 
 .songList .list-group-item span{
 	line-height: 34px; 
 	height: 34px; 
 }
 .friendList .list-group-item span{
+	line-height: 34px; 
+	height: 34px; 
+}
+.searchList .list-group-item span{
 	line-height: 34px; 
 	height: 34px; 
 }

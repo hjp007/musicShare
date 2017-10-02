@@ -7,16 +7,22 @@
 
 
 	<ul class="nav nav-pills" id="container" role="tablist">
-  		<li role="presentation" ng-class="{SongTab: 'active', FriendTab: '', UploadTab:''}[tab]" ng-click="tab='SongTab'">
+  		<li role="presentation" ng-click="tab='SongTab'"
+  			ng-class="{SongTab: 'active', FriendTab: '', UploadTab:'', SearchTab:''}[tab]">
     		<a href="javascript:;">音乐列表</a>
   		</li>
-  		<li role="presentation" ng-class="{SongTab: '', FriendTab: 'active',UploadTab:''}[tab]" ng-click="tab='FriendTab'">
+  		<li role="presentation" ng-click="tab='FriendTab'"
+  			ng-class="{SongTab: '', FriendTab: 'active',UploadTab:'', SearchTab:''}[tab]">
     		<a href="javascript:;">好友列表</a>
   		</li>
-  		<li role="presentation" ng-class="{SongTab: '', FriendTab: '', UploadTab:'active'}[tab]" ng-click="tab='UploadTab'">
+  		<li role="presentation" ng-click="tab='UploadTab'"
+  			ng-class="{SongTab: '', FriendTab: '', UploadTab:'active', SearchTab:''}[tab]">
     		<a href="javascript:;">音乐上传</a>
+  		</li>  		
+  		<li role="presentation" ng-click="tab='SearchTab'"
+  			ng-class="{SongTab: '', FriendTab: '', UploadTab:'', SearchTab:'active'}[tab]">
+    		<a href="javascript:;">搜索歌曲</a>
   		</li>
-
 	</ul>
 	<div ng-show="tab=='SongTab'" class="songList">
 		<span ng-show="user.songs.length==0" class="text-danger">无</span>
@@ -46,6 +52,29 @@
 	</div>
 	<div ng-show="tab=='UploadTab'" class="uploadPage">
 		<music-uploader></music-uploader>
+	</div>
+	<div ng-show="tab=='SearchTab'" class="SearchList">
+		<div class="form-group">
+    		<input type="text" class="form-control" placeholder="请输入歌曲名称，每次最多返回10条"
+    			ng-model="searchSong" ng-change="dynamicSearch()">
+  		</div>
+		<ul class="list-group">
+		    <li class="list-group-item row" ng-repeat="song in resultSongs"
+		    	ng-show="resultSongs.length != 0 && searchingStatus != 'search'">
+		        <div class="col-xs-8">
+                    <span>{{song.name}}</span>
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-success fr" ng-click="addSong(song)">添加至列表</button>
+                </div>
+		    </li>
+	  	</ul>
+	  	<div ng-show="resultSongs.length == 0 && searchingStatus != 'search'">
+		    <p>{{resultMessage}}</p>
+		</div>	
+		<div ng-show="searchingStatus == 'search'">
+    		<p>正在搜索中...</p>
+    	</div>		
 	</div>
 	<div class="audioDiv" ng-show="musicFlag">
 		<audio controls autoplay ng-src="{{sce(musicUrl)}}">
