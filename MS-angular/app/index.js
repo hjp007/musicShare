@@ -38,3 +38,6 @@ m1.config(["$stateProvider","$urlRouterProvider",function($stateProvider,$urlRou
  		$urlRouterProvider.when("","/"); 
 		$urlRouterProvider.otherwise('/error');
 }]);
+m1.run(['$rootScope', function($rootScope) {
+	window.clearInterval(loadingInterval)  //清除loading
+}]);

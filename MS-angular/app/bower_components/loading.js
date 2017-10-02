@@ -170,4 +170,8 @@ gradient2.addColorStop(.1, 'hsla('+circle.hue+', 100%, 100%, .7)');
 gradient2.addColorStop(1, 'hsla('+circle.hue+', 100%, 50%, 0)');
 
 /* Loop It, Loop It Good */
-setInterval(loop, 16);
+
+var loadingInterval = setInterval(loop, 16);
+
+
+//需要在其他的地方调用window.clearInterval(loadingInterval);
