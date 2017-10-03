@@ -24,36 +24,7 @@ angular.module('myApp').controller("checkFriendRequestController",["$scope","$ro
 	    })
 	    .error(function (error) {
 	    });
-
-
-    $scope.searchFriend= function (){ 
-    	if($scope.searchuser===""){
-    		$rootScope.alert("请填写名称！");
-    		return;
-    	}
-    	if($scope.searchuser===$scope.user.name){
-    	    $rootScope.alert("请不要写自己的名字！");
-    		return;	
-    	}
-        $http.get('searchFriend?username='+$scope.searchuser)
-            .success(function (data) {
-		        if(data.result==='success'){
-		            $scope.result = data.data;
-	                $scope.emshow = {
-						show: true                 
-	                }
-		        } else{
-		        	$rootScope.alert(data.message);
-		        	$scope.emshow = {
-						show: false                 
-	                }
-		        }  	
-
-            })
-            .error(function (error) {
-            })
-    };
-
+	    
     $scope.timer = null;
     $scope.resultUsers = [];   //成功时的数据
     $scope.resultMessage = "";  //失败时的信息

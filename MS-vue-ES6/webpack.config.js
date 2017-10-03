@@ -51,7 +51,7 @@ module.exports = {
         }), 
         new webpack.ProvidePlugin({
             $: "jquery",        //个人需要的全局形式
-            jQuery: "jquery"   //bootstrap需要的全局形式
+            jQuery: "jquery"  //bootstrap需要的全局形式
         })  //设置在全局变量中    
     ]
 }

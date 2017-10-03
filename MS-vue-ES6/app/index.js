@@ -1,3 +1,6 @@
+import Loading from './loading-common-js'
+var loadingInterval = Loading()
+
 import Vue from 'vue/dist/vue.min'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
@@ -38,9 +41,13 @@ const router = new VueRouter({
 import musicMessageBox from './components/musicMessageBox'  //全局组件
 
 const app = new Vue({
-  	router,
+  router,
 	components : {
 		musicMessageBox
-	}
+	},
+  created(){
+    window.clearInterval(loadingInterval)
+    $('#c').hide()
+  }
 }).$mount('#app')
 

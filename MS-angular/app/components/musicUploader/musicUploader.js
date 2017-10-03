@@ -88,7 +88,7 @@ angular.module('myApp').directive('musicUploader',['$http','$rootScope','localSt
                           .error(function (error) {
                           });
                       } else{
-                          _this.isBeforeUploading = false;
+                          $scope.isBeforeUploading = false;
                           $rootScope.alert(data.message);
                       }
                   })

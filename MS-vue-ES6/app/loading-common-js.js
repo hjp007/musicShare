@@ -1,4 +1,5 @@
 /* super inefficient right now, could be improved */
+var Loading = function(){
 var c = document.getElementById('c'),
     ctx = c.getContext('2d'),
     cw = c.width = 250,
@@ -169,9 +170,11 @@ gradient2.addColorStop(0, 'hsla('+circle.hue+', 100%, 50%, 0)');
 gradient2.addColorStop(.1, 'hsla('+circle.hue+', 100%, 100%, .7)');
 gradient2.addColorStop(1, 'hsla('+circle.hue+', 100%, 50%, 0)');
 
-/* Loop It, Loop It Good */
+return setInterval(loop, 16);
 
-var loadingInterval = setInterval(loop, 16);
+/* Loop It, Loop It Good */
+}
+export default Loading;
 
 
 //需要在其他的地方调用window.clearInterval(loadingInterval);

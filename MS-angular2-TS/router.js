@@ -68,12 +68,70 @@ route.get('/user',function(req,res,next){
     });
 });
 
+
+route.get('/searchSongs',function(req,res,next){
+    co(function*(){
+        var songs = [];
+        songs = yield Song.find({"name" : {
+            $regex : new RegExp(req.query.songname) 
+        }}).limit(10); 
+        if(songs.length == 0)
+            return Config.FAIL("0016"); 
+        return Config.SUCCESS(songs); 
+    }).then(function(data){
+        res.json(data);
+    }, function(e){
+        logger.info(e); 
+    });
+});
+
+route.post('/addSongToMyList',function(req,res,next){
+    co(function*(){
+        //check exist
+        var user = yield User.findOne({"_id" : req.body.id});
+        if(!user)
+            return Config.FAIL("0001"); 
+        var song = yield Song.findOne({"_id" : req.body.songId}); 
+        if(!song)
+            return Config.FAIL("0006");
+        for(var i = 0; i < user.songs.length; i++){
+            if(song._id.toString() == user.songs[i].toString())
+                return Config.FAIL("0017"); 
+        }
+        user.songs.push(song._id);
+        yield user.save();
+        return Config.SUCCESS(); 
+    }).then(function(data){
+        res.json(data);
+    }, function(e){
+        logger.info(e); 
+    });
+});
+
 route.get('/searchFriend',function(req,res,next){
     co(function*(){
         var user = yield User.findOne({"name" : req.query.username}); 
         if(!user)
             return Config.FAIL("0004"); 
         return Config.SUCCESS(user); 
+    }).then(function(data){
+        res.json(data);
+    }, function(e){
+        logger.info(e); 
+    });
+});
+
+
+route.get('/searchFriends',function(req,res,next){
+    co(function*(){
+        var users = [];
+        users = yield User.find({"name" : {
+            $regex : new RegExp(req.query.username), 
+            $ne : req.query.myname
+        }}).limit(5); 
+        if(users.length == 0)
+            return Config.FAIL("0015"); 
+        return Config.SUCCESS(users); 
     }).then(function(data){
         res.json(data);
     }, function(e){
@@ -94,9 +152,9 @@ route.post('/addFriend',function(req,res,next){
         if(origin._id == target._id)
             return Config.FAIL("0010");
         //check duplicate request    !!!!!!!!!!!!!!!!!!!1
-        var partA = yield FriendRequest.find({"origin" : origin._id});
-        var partB = yield FriendRequest.find({"target" : origin._id});
-        if((partA && partA.target == target._id)||(partB && partB.origin == target._id))
+        var partA = yield FriendRequest.findOne({"origin" : origin._id, "target": target._id});
+        var partB = yield FriendRequest.findOne({"target" : origin._id, "origin": target._id});
+        if(partA||partB)
             return Config.FAIL("0011");
         //add
         var friendRequest = new FriendRequest({

@@ -21,6 +21,9 @@
 .uploader input[type="file"]{
     display: none;
 }
+.uploader button{
+    margin-top: 30px; 
+}
 </style>
 <script>
 import bus from '../bus'
@@ -107,6 +110,7 @@ export default {
                                 }
                             }, function(err){})
                         } else{
+                            _this.isBeforeUploading = false
                             bus.$emit('alert', response.data.message)
                         }
                     }, function(err){})

@@ -107,21 +107,6 @@ route.post('/addSongToMyList',function(req,res,next){
         logger.info(e); 
     });
 });
-
-route.get('/searchFriend',function(req,res,next){
-    co(function*(){
-        var user = yield User.findOne({"name" : req.query.username}); 
-        if(!user)
-            return Config.FAIL("0004"); 
-        return Config.SUCCESS(user); 
-    }).then(function(data){
-        res.json(data);
-    }, function(e){
-        logger.info(e); 
-    });
-});
-
-
 route.get('/searchFriends',function(req,res,next){
     co(function*(){
         var users = [];

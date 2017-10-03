@@ -49,8 +49,8 @@ angular.module('myApp').controller("homeController",["$scope","$rootScope","$sta
     $scope.resultMessage = "";  //失败时的信息
     $scope.searchingStatus = "before";   //4个状态 before search over 
     $scope.dynamicSearch = function(){
-    	if($scope.searchuser===""){
-        	$scope.resultUsers = [];
+    	if($scope.searchSong===""){
+        	$scope.resultSongs = [];
         	$scope.resultMessage = "请填写名称！";
         	$timeout.cancel($scope.timer);
         	return;

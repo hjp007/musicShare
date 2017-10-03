@@ -35,19 +35,22 @@
     <div v-if="tab=='AddTab'" class="addChart">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">查找好友姓名</h3>
+                <h3 class="panel-title">查找好友姓名（最多同时显示5条）</h3>
             </div>
             <div class="panel-body">
                 <input type="text" class="form-control" v-model="searchuser">
-                <div class="row">
-                    <button class="btn btn-primary search col-xs-6 col-xs-offset-3" @click="searchFriend()">查找</button>
-                </div>
-                <div v-if="emshow.show">
-                    <p>姓名：<span class='fr'>{{result.name}}</span></p>
-                    <p>兴趣：<span class='fr'>{{result.interest}}</span></p>
-                    <div class="row">
-                        <button class="btn btn-primary col-xs-6 col-xs-offset-3" @click="friendRequest()">发起请求</button>
+                <div v-if="resultUsers.length != 0 && searchingStatus != 'search'"
+                    v-for="user in resultUsers" class="search">
+                    <div class="row container">
+                        <p class="col-xs-7">姓名：{{user.name}}</span></p>
+                        <button class="btn btn-primary col-xs-4 col-offset-1" @click="friendRequest(user)">发起请求</button>
                     </div>
+                </div>
+                <div v-if="resultUsers.length == 0 && searchingStatus != 'search'">
+                    <p>{{resultMessage}}</p>
+                </div>              
+                <div v-if="searchingStatus == 'search'">
+                    <p>正在搜索中...</p>
                 </div>
             </div>
         </div>
@@ -70,9 +73,11 @@ export default {
             user : {}, 
             friendRequests : [], 
             searchuser : "", 
-            result : {}, 
-            emshow : {show: false}
-
+            result : {},
+            timer : null,
+            resultUsers : [],   //成功时的数据
+            resultMessage : "",  //失败时的信息
+            searchingStatus : "before"   //4个状态 before search over 
         }
     },
     created() {
@@ -91,38 +96,44 @@ export default {
             }, function (err) {
 
             })  
+    },
+    watch:{
+        searchuser:"dynamicSearch"
     }, 
     methods:{
-        searchFriend(){
+        dynamicSearch(){
             if(this.searchuser===""){
-                bus.$emit('alert', "请填写名称！")
+                this.resultUsers = []
+                this.resultMessage = "请填写名称！"
+                clearTimeout(this.timer)
                 return
             }
-            if(this.searchuser===this.user.name){
-                bus.$emit('alert', "请不要写自己的名字！")
-                return
-            }
-            this.$http.get('searchFriend?username='+this.searchuser)
-                .then(function (response) {
-                    if(response.data.result==='success'){
-                        this.result = response.data.data
-                        this.emshow = {
-                            show: true                 
+            clearTimeout(this.timer)
+            var _this = this
+            this.timer = setTimeout(()=>{
+                //正在搜索字样也不要立刻就展示,如果300毫秒内拿到结果了就不展示了
+                _this.searchingStatus = "before";   
+                setTimeout(()=>{
+                    if(_this.searchingStatus != "over")
+                        _this.searchingStatus = "search"
+                }, 300)
+                //500毫秒后查找
+                _this.$http.get('searchFriends?username=' + _this.searchuser + '&myname=' + _this.user.name)
+                    .then(function (response) {
+                        _this.searchingStatus = "over"
+                        if(response.data.result==='success'){
+                            _this.resultUsers = response.data.data
+                        } else {
+                            _this.resultUsers = []
+                            _this.resultMessage = response.data.message
                         }
-                    } else {
-                        bus.$emit('alert', response.data.message)
-                        this.emshow = {
-                            show: false                 
-                        }
-                    }
-                }, function (err) {
-
-                })  
+                    })    
+            },500)
         }, 
-        friendRequest(){
+        friendRequest(user){
             let postData = {
                id : this.id,
-               friendName : this.result.name
+               friendName : user.name
             }
             this.$http.post('addFriend', postData)
                 .then(function (response) {
@@ -170,7 +181,6 @@ export default {
     padding-top: 20px; 
     margin-bottom: 10px; 
 }
-
 .checkFriendList .list-group-item p{
     line-height: 34px; 
     height: 34px; 
