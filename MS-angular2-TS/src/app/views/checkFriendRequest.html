@@ -35,20 +35,26 @@
 	<div *ngIf="tab=='AddTab'" class="addChart">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-	    		<h3 class="panel-title">查找好友姓名</h3>
+	    		<h3 class="panel-title">查找好友姓名（最多同时显示5条）</h3>
 	  		</div>
 	  		<div class="panel-body">
-	  			<input type="text" class="form-control" [(ngModel)]="searchuser">
-	  			<div class="row">
-		    		<button class="btn btn-primary search col-xs-6 col-xs-offset-3" (click)="searchFriend()">查找</button>
-	  			</div>
-		    	<div *ngIf="emShow">
-		    		<p>姓名：<span class='fr'>{{result.name}}</span></p>
-		    		<p>兴趣：<span class='fr'>{{result.interest}}</span></p>
-		    		<div class="row">
-		    			<button class="btn btn-primary col-xs-6 col-xs-offset-3" (click)="friendRequest()">发起请求</button>
-		    		</div>
-		    	</div>
+	  			<input type="text" class="form-control" 
+	  				[(ngModel)]="searchuser"  (ngModelChange)="dynamicSearch()">
+                <div *ngIf="resultUsers.length != 0 && searchingStatus != 'search'" class="search">
+                    <div class="row container" *ngFor="let user of resultUsers">
+                        <p class="col-xs-7">姓名：{{user.name}}</p>
+                        <button class="btn btn-primary col-xs-4 col-offset-1"
+                        (click)="friendRequest(user)">
+                        	发起请求
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="resultUsers.length == 0 && searchingStatus != 'search'">
+                    <p>{{resultMessage}}</p>
+                </div>              
+                <div *ngIf="searchingStatus == 'search'">
+                    <p>正在搜索中...</p>
+                </div>
 	  		</div>
 		</div>
 	</div>

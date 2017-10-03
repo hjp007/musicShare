@@ -32,7 +32,13 @@ body { padding-top: 50px; }
 	    padding-bottom: 15px;
 	}
 }
+/*pannel for PC*/
 .panel{
 	max-width: 400px;
 	margin:0 auto;
+}
+/*loading*/
+canvas{
+	margin:0 auto;
+	display: block;
 }

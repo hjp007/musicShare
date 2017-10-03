@@ -26,6 +26,9 @@ import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/c
 	.uploader input[type="file"]{
     	display: none;
 	}
+	.uploader button{
+    	margin-top: 30px; 
+	}
 	`]
 })
 export class MusicUploader {
@@ -107,6 +110,7 @@ export class MusicUploader {
 		  					}
 						})	
             		}else {
+            			this.isBeforeUploading = false
             		    this.busService.alert.emit({
             				message:data.message
             			})	

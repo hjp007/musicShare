@@ -29,6 +29,18 @@ export class ApiService {
 			.then(response => response.json() as any)
 			.catch(this.handleError)
 	}
+	searchSongs(songname : string): Promise<object>{
+		return this.http.get('searchSongs?songname=' + songname)
+			.toPromise()
+			.then(response => response.json() as any)
+			.catch(this.handleError)
+	}
+	addSongToMyList (id:string, songId:string): Promise<void>{
+		return this.http.post('addSongToMyList', {id:id, songId:songId})
+			.toPromise()
+			.then(response => response.json() as any)
+			.catch(this.handleError)
+	}
 	downloadSong(url : string): Promise<string>{
 		return this.http.get('downloadSong?url=' + url)
 			.toPromise()
@@ -41,8 +53,8 @@ export class ApiService {
 			.then(response => response.json() as any)
 			.catch(this.handleError)	
 	}
-	searchFriend(username : string): Promise<object>{
-		return this.http.get('searchFriend?username=' + username)
+	searchFriends(username : string, myname:string): Promise<object>{
+		return this.http.get('searchFriends?username=' + username + "&myname=" + myname)
 			.toPromise()
 			.then(response => response.json() as any)
 			.catch(this.handleError)	

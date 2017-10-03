@@ -11,6 +11,14 @@
 	line-height: 34px; 
 	height: 34px; 
 }
+.nav>li>a {
+    padding-left: 14px!important;
+    padding-right: 14px!important;
+}
+.searchList .list-group-item span{
+    line-height: 34px; 
+    height: 34px; 
+}
 .audioDiv{
     position: fixed;
     bottom: 0;

@@ -42,7 +42,7 @@
                 <div v-if="resultUsers.length != 0 && searchingStatus != 'search'"
                     v-for="user in resultUsers" class="search">
                     <div class="row container">
-                        <p class="col-xs-7">姓名：{{user.name}}</span></p>
+                        <p class="col-xs-7">姓名：{{user.name}}</p>
                         <button class="btn btn-primary col-xs-4 col-offset-1" @click="friendRequest(user)">发起请求</button>
                     </div>
                 </div>

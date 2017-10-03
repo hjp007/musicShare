@@ -15,6 +15,9 @@
   		<li role="presentation" [class.active]="tab=='UploadTab'" (click)="tab='UploadTab'">
     		<a href="javascript:;">音乐上传</a>
   		</li>
+  		<li role="presentation" [class.active]="tab=='SearchTab'" (click)="tab='SearchTab'">
+    		<a href="javascript:;">歌曲搜索</a>
+  		</li>
 
 	</ul>
 	<div *ngIf="tab=='SongTab'" class="songList">
@@ -46,6 +49,28 @@
 	<div *ngIf="tab=='UploadTab'" class="uploadPage">
 		<music-uploader></music-uploader>
 	</div>
+	<div *ngIf="tab=='SearchTab'" class="SearchList">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入歌曲名称，每次最多返回10条"
+                [(ngModel)]="searchSong" (ngModelChange)="dynamicSearch()">
+        </div>
+        <ul class="list-group" *ngIf="resultSongs.length != 0 && searchingStatus != 'search'">
+            <li class="list-group-item row" *ngFor="let song of resultSongs">
+                <div class="col-xs-8">
+                    <span>{{song.name}}</span>
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-success fr" (click)="addSong(song)">添加至列表</button>
+                </div>
+            </li>
+        </ul>
+        <div *ngIf="resultSongs.length == 0 && searchingStatus != 'search'">
+            <p>{{resultMessage}}</p>
+        </div>  
+        <div *ngIf="searchingStatus == 'search'">
+            <p>正在搜索中...</p>
+        </div>      
+    </div>
     <div class="audioDiv" *ngIf="musicFlag">
         <audio controls autoplay [src]="musicUrl">
         </audio>        

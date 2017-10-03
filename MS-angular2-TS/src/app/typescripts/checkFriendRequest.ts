@@ -13,10 +13,12 @@ export class CheckFriendRequest implements OnInit {
 	id = ""
 	tab = 'CheckTab' //CheckTab为信息列表，AddTab为加友页面
 	friendRequests = []
-	searchuser = ""
-	result : object
-	emShow = false
 	username = ""
+	searchuser = ""
+	timer = null
+	resultUsers = []  //成功时的数据
+    resultMessage = "" //失败时的信息
+    searchingStatus = "before"   //4个状态 before search over 
 
 	constructor(
     	private router: Router, 
@@ -40,34 +42,36 @@ export class CheckFriendRequest implements OnInit {
 			
 			})
 	}
-	searchFriend() : void {
-	    if(this.searchuser===""){
-	    	this.busService.alert.emit({
-				message : "请填写名称！"
-			})
+	dynamicSearch(){
+        if(this.searchuser===""){
+            this.resultUsers = []
+            this.resultMessage = "请填写名称！"
+            clearTimeout(this.timer)
             return
         }
-        if(this.searchuser===this.username){
-    		this.busService.alert.emit({
-				message : "请不要写自己的名字！"
-			})
-            return
-        }
-		this.apiService.searchFriend(this.searchuser)
-			.then((data:any)=>{
-				if(!data.code){
-					this.emShow = true
-					this.result = data.data
-				}else{
-					this.emShow = false
-					this.busService.alert.emit({
-						message : data.message
-					})
-				}
-			})
-	}
-	friendRequest() : void {
-		this.apiService.addFriend(this.id, this.result['name'])
+        clearTimeout(this.timer)
+        this.timer = setTimeout(()=>{
+            //正在搜索字样也不要立刻就展示,如果300毫秒内拿到结果了就不展示了
+            this.searchingStatus = "before";   
+            setTimeout(()=>{
+                if(this.searchingStatus != "over")
+                    this.searchingStatus = "search"
+            }, 300)
+            //500毫秒后查找
+            this.apiService.searchFriends(this.searchuser, this.username)
+            	.then((data:any)=>{
+                    this.searchingStatus = "over"
+					if(!data.code){
+                        this.resultUsers = data.data
+					}else {
+						this.resultUsers = []
+                        this.resultMessage = data.message
+					}
+				})
+        },500)
+    } 
+	friendRequest(user) : void {
+		this.apiService.addFriend(this.id, user['name'])
 			.then((data:any)=>{
 				if(!data.code){
 					this.busService.alert.emit({

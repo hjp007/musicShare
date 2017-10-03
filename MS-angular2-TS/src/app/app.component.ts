@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+declare var loadingInterval : any
+declare var $ : any
 @Component({
   	selector: 'app-root',
   	template: `
@@ -8,5 +9,9 @@ import { Component } from '@angular/core';
   	`
 })
 export class AppComponent {
+	ngAfterViewInit() : void {
+		window.clearInterval(loadingInterval)
+		$('#c').hide()		
+	}
 }
 
