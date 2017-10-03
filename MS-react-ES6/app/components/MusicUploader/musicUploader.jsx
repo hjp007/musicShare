@@ -11,7 +11,8 @@ class MusicUploader extends React.Component{
     		accepts : {
                 checkType : ['audio/mp3','audio/wav','audio/wma','audio/ogg','audio/mpeg', 'audio/x-ms-wma'], //手机会被转成mpeg,x-ms-wma格式
 		        maxSize : 11000000
-		    }
+		    }, 
+		    isBeforeUploading : false
 	    }
 	}
     contains(arr, obj) {
@@ -36,6 +37,7 @@ class MusicUploader extends React.Component{
             	bus.dispatch('alert', "请上传音乐！目前支持mp3,wav,wma,ogg格式！")
                 return
             }
+            this.setState({isBeforeUploading : true})
             var formData = new FormData()
             formData.append('file', file)
             let postData = {
@@ -56,10 +58,14 @@ class MusicUploader extends React.Component{
 						    xhr: function() {
 						        var xhr = new window.XMLHttpRequest();
 						        xhr.upload.addEventListener("progress", function(evt) {
+						        	//上传中途处理
 						            if (evt.lengthComputable) {
 						                _this.setState({
 						                	percentage : Math.round(evt.loaded*100 / evt.total)
 						                })
+						                if(_this.state.isBeforeUploading == true && _this.state.percentage!=0){
+                                        	_this.setState({isBeforeUploading : false})
+                                    	}
 						            }
 						       }, false)
 						       return xhr
@@ -87,6 +93,7 @@ class MusicUploader extends React.Component{
 							}
                         })
                     } else{
+                        _this.setState({isBeforeUploading : false})
                         bus.dispatch('alert', data.message);
                     }
             	}
@@ -105,6 +112,11 @@ class MusicUploader extends React.Component{
 			        	点击上传
 			        </button>
 			    </div>
+			    {this.state.isBeforeUploading &&
+					<span>
+				        校验成功，正准备上传，请等待。
+				    </span>
+			    }
 			    {this.state.percentage != 0 &&
 				    <div>
 				        <h2 className="text-danger">上传进度</h2>

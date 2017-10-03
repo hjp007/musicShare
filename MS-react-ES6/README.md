@@ -19,7 +19,7 @@ webpack目前没有弄热运行，只有编译打包
 
 #### react版本注意是8082端口
 
-    http://localhost:8082/
+    http://localhost:8082/#/main
 
 ## react相关知识点
 <pre> 

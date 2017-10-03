@@ -1,3 +1,5 @@
+import Loading from './loading-common-js'
+var loadingInterval = Loading()
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter as Router, Route } from 'react-router-dom'
@@ -18,7 +20,7 @@ import MusicMessageBox from './components/MusicMessageBox/MusicMessageBox.jsx' /
 ReactDOM.render((
 	<Router>
 		<div>
-    		<Route path="/main" component={Main}/>
+        <Route path="/main" component={ Main } />
     		<Route path="/home" component={Home}/>
    			<Route path="/login" component={Login}/>
    			<Route path="/apply" component={Apply}/>
@@ -27,4 +29,9 @@ ReactDOM.render((
         <MusicMessageBox id="messageBox"></MusicMessageBox>
 		</div>
   </Router>
-), document.getElementById('app'))
+)
+, document.getElementById('app')
+, ()=>{
+  window.clearInterval(loadingInterval)
+  $('#c').hide()
+})

@@ -38,9 +38,16 @@ class CheckFriendRequest extends React.Component {
 		            <p className="text-center text-danger">已拒绝加友</p>
 	            }
 	        </li>	
-
    		))
-
+      var resultUsers = this.state.resultUsers.map((user, index)=>(
+          <div key={index} className="row container search">
+              <p className="col-xs-7">姓名：{user.name}</p>
+              <button className="btn btn-primary col-xs-4 col-offset-1" 
+              onClick={this.friendRequest.bind(this, user)}>
+                  发起请求
+              </button>
+          </div>
+      ))
 
 
    		let content = null
@@ -62,29 +69,20 @@ class CheckFriendRequest extends React.Component {
    				<div className="addChart">
 			        <div className="panel panel-primary">
 			            <div className="panel-heading">
-			                <h3 className="panel-title">查找好友姓名</h3>
+			                <h3 className="panel-title">查找好友姓名（最多同时显示5条）</h3>
 			            </div>
 			            <div className="panel-body">
-			                <input type="text" className="form-control" placeholder="请输入查找人的名字"
-			                	value={this.state.searchuser} onChange={evt => this.updateSearchuser(evt)}/>
-			                <div className="row">
-			                    <button className="btn btn-primary search col-xs-6 col-xs-offset-3"
-			                    	onClick={this.searchFriend.bind(this)}>
-			                    	查找
-			                    </button>
-			                </div>
-			                {this.state.emshow.show &&
-				                <div>
-				                    <p>姓名：<span className='fr'>{this.state.result.name}</span></p>
-				                    <p>兴趣：<span className='fr'>{this.state.user.interest}</span></p>
-				                    <div className="row">
-				                        <button className="btn btn-primary col-xs-6 col-xs-offset-3"
-				                        	onClick={this.friendRequest.bind(this)}>
-				                        	发起请求
-				                        </button>
-				                    </div>
-				                </div>
-			                }
+                      <input type="text" className="form-control" placeholder="请输入查找人的名字"
+                      value={this.state.searchuser} onChange={evt => this.updateSearchuser(evt)}/>
+                      {this.state.resultUsers.length != 0 && this.state.searchingStatus != 'search' &&
+                          resultUsers
+                      }
+                      {this.state.resultUsers.length == 0 && this.state.searchingStatus != 'search' &&
+                          <p>{this.state.resultMessage}</p>
+                      }
+                      {this.state.searchingStatus == 'search' &&
+                          <p>正在搜索中...</p>
+                      }            
 			            </div>
 			        </div> 					
    				</div>
@@ -118,8 +116,10 @@ class CheckFriendRequest extends React.Component {
             user : {}, 
             friendRequests : [], 
             searchuser : "", 
-            result : {}, 
-            emshow : {show: false}
+            timer : null,
+            resultUsers : [],   //成功时的数据
+            resultMessage : "",  //失败时的信息
+            searchingStatus : "before"   //4个状态 before search over 
     	}
   	}
   	componentDidMount(){
@@ -168,10 +168,52 @@ class CheckFriendRequest extends React.Component {
       	}
       )
     } 
-    friendRequest(){
+    updateSearchuser(evt){
+      this.setState({
+          searchuser: evt.target.value
+      }, ()=>{
+        this.dynamicSearch()
+      })
+    }
+    dynamicSearch(){
+      if(this.state.searchuser===""){
+        this.setState({
+          resultUsers : [],
+          resultMessage : "请填写名称！"
+        })
+        clearTimeout(this.state.timer)
+        return
+      }
+      clearTimeout(this.state.timer)
+      var _this = this
+      this.setState({
+        timer : setTimeout(()=>{
+          //正在搜索字样也不要立刻就展示,如果300毫秒内拿到结果了就不展示了
+          _this.setState({searchingStatus : "before"})   
+          setTimeout(()=>{
+              if(_this.state.searchingStatus != "over")
+                  _this.setState({searchingStatus : "search"})
+          }, 300)
+          //500毫秒后查找
+          $.get('searchFriends?username=' + _this.state.searchuser + '&myname=' + _this.state.user.name)
+              .then(function (data) {
+                  _this.setState({searchingStatus : "over"})
+                  if(data.result==='success'){
+                    _this.setState({resultUsers: data.data})
+                  } else {
+                    _this.setState({
+                      resultUsers : [], 
+                      resultMessage : data.message
+                    })
+                  }
+              })    
+        },500)
+      })
+    }
+    friendRequest(user){
         let postData = {
            id : this.state.id,
-           friendName : this.state.result.name
+           friendName : user.name
         }
         $.post('addFriend', postData, 
         	(data)=>{
@@ -208,11 +250,6 @@ class CheckFriendRequest extends React.Component {
     }
     toHome(){
         this.props.history.push("/home")
-    }
-    updateSearchuser(evt){
-    	this.setState({
-      		searchuser: evt.target.value
-    	})
     }
 }
 export default withRouter(CheckFriendRequest)

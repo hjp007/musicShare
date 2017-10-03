@@ -214,8 +214,7 @@ export default {
     padding-left: 14px!important;
     padding-right: 14px!important;
 }
-
-.songList .list-group-item span{
+.searchList .list-group-item span{
     line-height: 34px; 
     height: 34px; 
 }
