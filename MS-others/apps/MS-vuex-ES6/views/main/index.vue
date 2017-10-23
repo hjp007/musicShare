@@ -33,20 +33,30 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import musicNav from '../components/musicNav'
-export default {
-
+import elephant from '../../elephant-ui'
+import musicNav from '../../components/musicNav'
+import store from './store'
+//模块名称及局部数据
+let moduleData = {
+    mName : 'main', 
+    store,
+}
+//组件数据的配置项
+let vuexSettings = {
+    state : {
+        global : ['id']
+    }, 
+    mutations : {
+        global : ['INIT_ID']
+    }
+}
+//vue组件配置项
+let vueComponent = {
     components : {
         musicNav
     },
-    computed: mapGetters([
-        'id'
-    ]),
     created() {
-        this.$store.commit('setId', {
-            id : localStorage.getItem("identity")
-        })
+        this.INIT_ID()
     },
     methods:{
         toLogin(){
@@ -58,8 +68,9 @@ export default {
         toApply(){
             this.$router.push({name:'apply'})
         }
-    }
+    }   
 }
+export default elephant.component(vueComponent, vuexSettings, moduleData)
 </script>
 
 <style scoped>

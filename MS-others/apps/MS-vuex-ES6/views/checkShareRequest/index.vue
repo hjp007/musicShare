@@ -94,96 +94,61 @@
 </div>  
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import musicNav from '../components/musicNav'
-import musicModal from '../components/musicModal'
-import bus from '../bus'
-export default {
+import musicNav from '../../components/musicNav'
+import musicModal from '../../components/musicModal'
+import store from './store'
+import elephant from '../../elephant-ui'
+//模块名称及局部数据
+let moduleData = {
+    mName : 'checkShareRequest', 
+    store, 
+}
+//组件数据的配置项
+let vuexSettings = {
+    state : {
+        self : ['shareRequests', 'user', 'shareOperationStatus', 'friendName'], 
+        global : ['id']
+    }, 
+    mutations : {
+        self : ['SET_VALUE'], 
+        global : ['INIT_ID']
+    }, 
+    actions : {
+        self : ['API_CHECK_SHARE_REQUEST', 'API_ADD_SHARE', 'API_REPLY_SHARE_REQUEST']
+    }
+}
+//vue组件配置项
+let vueComponent = {
     components : {
         musicNav, 
         musicModal
     },
-    data () {
-        return {
-            user : {}, 
-            shareRequests : [], 
-            shareOperationStatus : 0, 
-            friendName : ""
-        }
-    },
-    computed: {
-        ...mapGetters({
-          id: 'id',
-        })
-    },
     created() {
-        this.$store.commit('setId', {
-            id : localStorage.getItem("identity")
-        })
+        this.INIT_ID()
         if (this.id == null)
             this.$router.push({name:'login'})   
-
-        this.$http.get('checkshareRequest?id=' + this.id)
-            .then(function (response) {
-                if(response.data.result==='success'){
-                    this.user = response.data.data.user
-                    this.shareRequests = response.data.data.shareRequests
-                } else {
-                    bus.$emit('alert', response.data.message)
-                }
-            }, function (err) {
-
-            })  
+        this.API_CHECK_SHARE_REQUEST()
     }, 
     methods:{
         selectFriend(friend){
-            this.shareOperationStatus = 1
-            this.friendName = friend.name
+            this.SET_VALUE({
+                shareOperationStatus : 1, 
+                friendName : friend.name
+            })
         },
         selectSong(song){
-            this.shareOperationStatus = 0
-            if(this.friendName == ""){
-                bus.$emit('alert', "未知错误！")
-                return
-            }
-            let postData = {
-                id : this.id, 
-                friendName : this.friendName, 
-                songId : song._id
-            } 
-            this.$http.post('addShare', postData)
-                .then(function (response) {
-                    if(response.data.result==='success'){
-                        bus.$emit('alert', "分享已经发送！", ()=>{
-                            window.location.reload()
-                        })
-                    } else {
-                        bus.$emit('alert', response.data.message)
-                    }
-                }, function (err) {
-
-                }) 
+            this.API_ADD_SHARE({song:song})
         },
         resetStatus(){
-            this.shareOperationStatus = 0
+            this.SET_VALUE({
+                shareOperationStatus : 0
+            })
         },
         replyShareRequest(requestId, status){
-            let postData = {
-               requestId : requestId,
-               status : status
-            }  
-            this.$http.post('replyShareRequest', postData)
-                .then(function (response) {
-                    if(response.data.result==='success'){
-                        bus.$emit('alert', "您的回复已经发送！歌曲会出现在您列表里！", ()=>{
-                            window.location.reload()
-                        })
-                    } else {
-                        bus.$emit('alert', response.data.message)
-                    }
-                }, function (err) {
-
-                })     
+            this.API_REPLY_SHARE_REQUEST({
+                requestId : requestId, 
+                status : status
+            })
         },
         toLogin(){
             localStorage.removeItem("identity")
@@ -194,6 +159,7 @@ export default {
         }
     }
 }
+export default elephant.component(vueComponent, vuexSettings, moduleData)
 </script>
 <style scoped>
 .nav-pills{

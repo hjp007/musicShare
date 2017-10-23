@@ -6,16 +6,16 @@
         <li @click="toCheckShareRequest()">音乐分享</li>    
     </music-nav>
 	<ul class="nav nav-pills" id="container" role="tablist">
-  		<li role="presentation" v-bind:class="[tab=='SongTab' ? 'active' : '', errorClass]" @click="tab='SongTab'">
+  		<li role="presentation" v-bind:class="[tab=='SongTab' ? 'active' : '']" @click="changeTab('SongTab')">
     		<a href="javascript:;">音乐列表</a>
   		</li>
-  		<li role="presentation" v-bind:class="[tab=='FriendTab' ? 'active' : '', errorClass]" @click="tab='FriendTab'">
+  		<li role="presentation" v-bind:class="[tab=='FriendTab' ? 'active' : '']" @click="changeTab('FriendTab')">
     		<a href="javascript:;">好友列表</a>
   		</li>
-        <li role="presentation" v-bind:class="[tab=='UploadTab' ? 'active' : '', errorClass]" @click="tab='UploadTab'">
+        <li role="presentation" v-bind:class="[tab=='UploadTab' ? 'active' : '']" @click="changeTab('UploadTab')">
             <a href="javascript:;">音乐上传</a>
         </li>
-        <li role="presentation" v-bind:class="[tab=='SearchTab' ? 'active' : '', errorClass]" @click="tab='SearchTab'">
+        <li role="presentation" v-bind:class="[tab=='SearchTab' ? 'active' : '']" @click="changeTab('SearchTab')">
             <a href="javascript:;">搜索歌曲</a>
         </li>
 	</ul>
@@ -51,7 +51,7 @@
     <div v-if="tab=='SearchTab'" class="SearchList">
         <div class="form-group">
             <input type="text" class="form-control" placeholder="请输入歌曲名称，每次最多返回10条"
-                v-model="searchSong">
+                :value="searchSong" @input="dynamicSearch">
         </div>
         <ul class="list-group">
             <li class="list-group-item row" v-for="song in resultSongs"
@@ -78,49 +78,51 @@
 </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import musicUploader from '../components/musicUploader'
-import musicNav from '../components/musicNav'
-import bus from '../bus'
-export default {
+import musicUploader from '../../components/musicUploader'
+import musicNav from '../../components/musicNav'
+import store from './store'
+import elephant from '../../elephant-ui'
+
+//模块名称及局部数据
+let moduleData = {
+    mName : 'home', 
+    store, 
+}
+//组件数据的配置项
+let vuexSettings = {
+    state : {
+        self : ['tab', 'user', 'musicFlag', 'musicUrl', 'searchSong', 'timer', 'resultSongs', 'resultMessage', 'searchingStatus'], 
+        global : ['id']
+    }, 
+    mutations : {
+        self : ['SET_VALUE'], 
+        global : ['INIT_ID']
+    }, 
+    actions : {
+        self : ['API_USER', 'API_DOWNLOAD_SONG', 'API_ADD_SONG', 'API_SEARCH_SONGS']
+    }
+}
+//vue组件配置项
+let vueComponent = {
 	components : {
         musicUploader, 
         musicNav
     },
-    computed: mapGetters([
-        'id', 
-        'tab', 
-        'user', 
-        'musicFlag',
-        'musicUrl',
-        'searchSong', 
-        'musicUrl',
-        'searchSong', 
-        'timer',
-        'resultSongs',  
-        'resultMessage', 
-        'searchingStatus'  
-    ]),
     created() {
-        this.$store.commit('initHomePage')
-        this.$store.commit('setId', {
-            id : localStorage.getItem("identity")
-        })
+        this.INIT_ID()
         if (this.id == null){
             this.$router.push({name:'login'})   
         }
-        this.$store.dispatch('userApi').then((user) => {
-            this.$store.commit('setUser', { user })
-        })
-    }, 
-    watch:{
-        searchSong : "dynamicSearch"
+        this.API_USER()
     }, 
     methods:{
         download(url){
-            this.$store.dispatch('downloadSongApi', {
+            this.API_DOWNLOAD_SONG({
                 url : url
             })
+        }, 
+        changeTab(newTab){
+            this.SET_VALUE({tab:newTab})
         }, 
         toLogin(){
         	localStorage.removeItem("identity")
@@ -132,18 +134,20 @@ export default {
         toCheckShareRequest(){
         	this.$router.push({name:'checkShareRequest'})  
         },
-        dynamicSearch(){
-            this.$store.dispatch('searchSongsApi')
+        dynamicSearch(e){
+            this.SET_VALUE({searchSong: e.target.value})
+            this.API_SEARCH_SONGS()
         }, 
         addSong(song){
-            this.$store.dispatch('addSong', {
+            this.API_ADD_SONG({
                 song : song
-            }, ()=>{
+            }).then(()=>{
                 window.location.reload()
             })
         }
     }
 }
+export default elephant.component(vueComponent, vuexSettings, moduleData)
 </script>
 <style scoped>
 .nav-pills{

@@ -10,11 +10,13 @@
         <div class="panel-body">
             <div class="form-group">
                 <label>登录名</label>
-                <input type="text" class="form-control" placeholder="请输入登录名" v-model="username">
+                <input type="text" class="form-control" placeholder="请输入登录名"
+                    :value="username" @input="updateUsername">
             </div>
             <div class="form-group">
                 <label>密码</label>
-                <input type="password" class="form-control" placeholder="请输入密码" v-model="password">
+                <input type="password" class="form-control" placeholder="请输入密码"
+                    :value="password" @input="updatePassword">
             </div>
             <div class="row">
                 <button class="btn btn-primary col-xs-3 col-xs-offset-2" @click="toHome()">登录</button>
@@ -26,35 +28,48 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import musicNav from '../components/musicNav'
-import bus from '../bus'
-export default {
+import elephant from '../../elephant-ui'
+import musicNav from '../../components/musicNav'
+import store from './store'
+const http = elephant.http
+const bus = elephant.bus 
+//模块名称及局部数据
+let moduleData = {
+    mName : 'login', 
+    store,
+}
+//组件数据的配置项
+let vuexSettings = {
+    state : {
+        self : ['username', 'password'], 
+        global : ['id']
+    }, 
+    mutations : {
+        self : ['SET_VALUE'], 
+        global : ['INIT_ID']
+    }, 
+    actions : {
+        self : ['API_LOGIN']
+    }
+}
+//vue组件配置项
+let vueComponent = {
     components : {
         musicNav
     },
     data () {
         return {
             backgroundDiv :  {
-                backgroundImage: 'url(' + require('../images/bg1.jpg') + ')',
+                backgroundImage: 'url(' + require('../../images/bg1.jpg') + ')',
             }
         }
     },
-    computed: {
-        ...mapGetters({
-          id: 'id',
-          username: 'username', 
-          password: 'password'
-        })
-    },
     created() {
-        this.$store.commit('initLoginForm')
-        this.$store.commit('setId', {
-            id : localStorage.getItem("identity")
-        })
+        this.INIT_ID()
         if (this.id !== null){
             this.$router.push('home')      
         }
+
     }, 
     methods: {
         toMain(){
@@ -64,13 +79,19 @@ export default {
             this.$router.push({name:'apply'})
         },
         toHome(){
-            this.$store.dispatch('loginApi', (id)=>{
-                localStorage.setItem("identity", id)
+            this.API_LOGIN().then(()=>{
                 this.$router.push({name:'home'})
             })
-        }
+        }, 
+        updateUsername(e){
+            this.SET_VALUE({username: e.target.value})
+        },
+        updatePassword(e){
+            this.SET_VALUE({password: e.target.value})
+        }, 
     }
 }
+export default elephant.component(vueComponent, vuexSettings, moduleData)
 </script>
 
 <style scoped>

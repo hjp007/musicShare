@@ -12,15 +12,18 @@
         <div class="panel-body">
             <div class="form-group">
                 <label>登录名</label>
-                <input type="text" class="form-control" placeholder="请输入登录名" v-model="username">
+                <input type="text" class="form-control" placeholder="请输入登录名"
+                    :value="username" @input="updateUsername">
             </div>
             <div class="form-group">
                 <label>密码</label>
-                <input type="password" class="form-control" placeholder="请输入密码" v-model="password">
+                <input type="password" class="form-control" placeholder="请输入密码"
+                    :value="password" @input="updatePassword">
             </div>
             <div class="form-group">
                 <label>兴趣</label>
-                <input type="text" class="form-control" placeholder="请输入兴趣" v-model="interest">
+                <input type="text" class="form-control" placeholder="请输入兴趣"
+                    :value="interest" @input="updateInterest">
             </div>
             <div class="row">
                 <button class="btn btn-danger col-xs-4 col-xs-offset-4" @click="applyAccount()">注册账号</button>
@@ -31,33 +34,42 @@
 </template>
 
 <script>
-import musicNav from '../components/musicNav'
-import { mapGetters } from 'vuex'
-import bus from '../bus'
-export default {
+import store from './store'
+import elephant from '../../elephant-ui'
+import musicNav from '../../components/musicNav'
+//模块名称及局部数据
+let moduleData = {
+    mName : 'apply', 
+    store, 
+}
+//组件数据的配置项
+let vuexSettings = {
+    state : {
+        self : ['username', 'password', 'interest'], 
+        global : ['id']
+    }, 
+    mutations : {
+        self : ['SET_VALUE'], 
+        global : ['INIT_ID']
+    }, 
+    actions : {
+        self : ['API_APPLY']
+    }
+}
+//vue组件配置项
+let vueComponent = {
     components : {
         musicNav
     },
     data () {
         return {
             backgroundDiv :  {
-                backgroundImage: 'url(' + require('../images/bg1.jpg') + ')',
+                backgroundImage: 'url(' + require('../../images/bg1.jpg') + ')',
             }
         }
     },
-    computed: {
-        ...mapGetters({
-          id: 'id',
-          username: 'username', 
-          password: 'password', 
-          interest: 'interest'
-        })
-    },
     created() {
-        this.$store.commit('initApplyForm')
-        this.$store.commit('setId', {
-            id : localStorage.getItem("identity")
-        })
+        this.INIT_ID()
         if (this.id !== null){
             this.$router.push('home')      
         }
@@ -70,14 +82,22 @@ export default {
             this.$router.push({name:'login'})
         },
         applyAccount(){
-            this.$store.dispatch('applyApi', (id)=>{
-                localStorage.setItem("identity", id)
+            this.API_APPLY().then(()=>{
                 this.$router.push({name:'home'})
             })
-
-        }
+        }, 
+        updateUsername(e){
+            this.SET_VALUE({username: e.target.value})
+        },
+        updatePassword(e){
+            this.SET_VALUE({password: e.target.value})
+        }, 
+        updateInterest(e){
+            this.SET_VALUE({interest: e.target.value})
+        }, 
     }
 }
+export default elephant.component(vueComponent, vuexSettings, moduleData)
 </script>
 
 <style scoped>

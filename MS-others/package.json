@@ -4,7 +4,7 @@
   "description": "musicShare app with other plugins",
   "main": "server.js",
   "scripts": {
-    "dev": "node server"
+    "dev": "node server --inline --hot"
   },
   "author": "hjp",
   "license": "MIT",

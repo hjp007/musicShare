@@ -34,4 +34,10 @@ mutations改变state里的值的话，computed监听到再实时映射值回组�
 总之，一次state值改变是有一次组件与store之间的往返通信
 4. 大成功！利用vuex的开源代码环境实现了webpack自动热运行，http,router与热运行无冲突
 5. 热运行时vue不能直接import，要在webpack里面配置resolve下的alias换到dist下的文件
+6. vuex更新state只能用mutation,所以用不了v-model,需要用@input与:value来代替
+7. ES7下对象展开运算符"..."本质是把对象加入到外部对象中，"..."后面的名字可以随便取
+8. 大成功！项目使用自写封装库elephant实现了局部store,通过映射挂载实现
+9. 目前每个vue组件里面需要有3个东西，vue组件内容，vuex数据配置项，局部数据配置项。这3个东西用elephant组合到一起
+10. 使用了elephant后不需要再写getters
+11. elephant会把actions，mutations里面的方法挂载到this上，不需要写commit和dispatch
 </pre>

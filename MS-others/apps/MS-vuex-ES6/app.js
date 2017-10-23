@@ -20,12 +20,12 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import './style.css'
 
 
-import main from './views/main'
-import login from './views/login'
-import apply from './views/apply'
-import home from "./views/home"
-import checkShareRequest from './views/checkShareRequest'
-import checkFriendRequest from './views/checkFriendRequest'
+import main from './views/main/index'
+import login from './views/login/index'
+import apply from './views/apply/index'
+import home from "./views/home/index"
+import checkShareRequest from './views/checkShareRequest/index'
+import checkFriendRequest from './views/checkFriendRequest/index'
 
 const routes = [
   { path: '/',                   name:'main',              component: main }, 
