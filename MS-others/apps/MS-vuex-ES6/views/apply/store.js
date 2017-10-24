@@ -1,5 +1,5 @@
-import elephant from '../../elephant-ui'
-import * as types from '../../mutation-types'
+import elephant from '@/elephant-ui'
+import * as types from '@/mutation-types'
 const http = elephant.http
 const bus = elephant.bus 
 export default {

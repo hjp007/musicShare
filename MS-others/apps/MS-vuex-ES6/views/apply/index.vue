@@ -35,8 +35,8 @@
 
 <script>
 import store from './store'
-import elephant from '../../elephant-ui'
-import musicNav from '../../components/musicNav'
+import elephant from '@/elephant-ui'
+import musicNav from '@/components/musicNav/index'
 //模块名称及局部数据
 let moduleData = {
     mName : 'apply', 

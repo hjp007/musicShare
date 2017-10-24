@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import elephant from '../../elephant-ui'
-import musicNav from '../../components/musicNav'
+import elephant from '@/elephant-ui'
+import musicNav from '@/components/musicNav/index'
 import store from './store'
 const http = elephant.http
 const bus = elephant.bus 

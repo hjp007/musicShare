@@ -20,14 +20,6 @@
 </style>
 <script>
 export default {
-    name : 'musicModal',
-    props : {
-    },
-    data:function(){
-        return {
-        }
-    },
-    methods: {
-    }
+    name : 'musicModal'
 }
 </script>

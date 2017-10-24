@@ -46,7 +46,7 @@
 	  	</ul>		
 	</div>
     <div v-if="tab=='UploadTab'" class="uploadPage">
-        <music-uploader v-bind:id="id"></music-uploader>
+        <music-uploader></music-uploader>
     </div>
     <div v-if="tab=='SearchTab'" class="SearchList">
         <div class="form-group">
@@ -78,10 +78,10 @@
 </div>
 </template>
 <script>
-import musicUploader from '../../components/musicUploader'
-import musicNav from '../../components/musicNav'
+import musicUploader from '@/components/musicUploader/index'
+import musicNav from '@/components/musicNav/index'
 import store from './store'
-import elephant from '../../elephant-ui'
+import elephant from '@/elephant-ui'
 
 //模块名称及局部数据
 let moduleData = {

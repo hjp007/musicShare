@@ -29,35 +29,62 @@
 
 </style>
 <script>
-import bus from '../bus'
-export default {
-    name : 'musicMessageBox',
-    props : {
-    },
-    data () {
-        return {
-            messageBox : {
-                type : '', 
-                message : '', 
-                callback : null
-            }
+import bus from '@/bus'
+import elephant from '@/elephant-ui'
+import * as types from '../../mutation-types'
+const store = {
+    namespaced:true, 
+    state : {
+        messageBox : {
+            type : '', 
+            message : '', 
+            callback : null
         }
+    }, 
+    mutations : {
+        [types.SET_VALUE] (state, obj) {           //eg: commit("SET_VALUE", {user:xxx, id:xxx})
+            for (var index in obj) { 
+                state[index] = obj[index]
+            }
+        },
     },
+}
+//模块名称及局部数据
+let moduleData = {
+    mName : 'musicMessageBox', 
+    store, 
+}
+//组件数据的配置项
+let vuexSettings = {
+    state : {
+        self : ['messageBox']
+    }, 
+    mutations : {
+        self : ['SET_VALUE']
+    }
+}
+//vue组件配置项
+let vueComponent = {
+    name : 'musicMessageBox',
     mounted () {
         bus.$on("alert", function (message, callback) {
-            this.messageBox = {
-                type : 'alert', 
-                message : message, 
-                callback : callback
-            }
+            this.SET_VALUE({
+                messageBox : {
+                    type : 'alert', 
+                    message : message, 
+                    callback : callback
+                } 
+            })
             $("#messageBox").modal()
         }.bind(this))
         bus.$on("confirm", function (message, callback) {
-            this.messageBox = {
-                type : 'confirm', 
-                message : message, 
-                callback : callback
-            }
+            this.SET_VALUE({
+                messageBox : {
+                    type : 'confirm', 
+                    message : message, 
+                    callback : callback
+                } 
+            })
             $("#messageBox").modal()
         }.bind(this))
     },
@@ -68,4 +95,5 @@ export default {
         }
     }
 }
+export default elephant.component(vueComponent, vuexSettings, moduleData)
 </script>

@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 
+
 module.exports = {
 
   devtool: 'inline-source-map',
@@ -39,7 +40,8 @@ module.exports = {
 
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.js'
+      'vue' : 'vue/dist/vue.js', 
+      '@'   : path.join(__dirname, 'MS-vuex-ES6')
     }, 
     extensions: ['.js', '.vue']
   },

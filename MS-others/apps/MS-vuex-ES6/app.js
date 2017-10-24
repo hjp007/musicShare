@@ -4,10 +4,8 @@ var loadingInterval = Loading()
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import VueResource from 'vue-resource'
 
 Vue.use(VueRouter)
-Vue.use(VueResource)
 
 import store from "./store"
 // 开启debug模式
@@ -39,7 +37,7 @@ const routes = [
 const router = new VueRouter({
   routes 
 }) 
-import musicMessageBox from './components/musicMessageBox'  //全局组件
+import musicMessageBox from './components/musicMessageBox/index'  //全局组件
 const app = new Vue({
   store, 
   router,

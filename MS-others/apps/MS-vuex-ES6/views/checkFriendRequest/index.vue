@@ -59,9 +59,9 @@
 </template>
 
 <script>
-import musicNav from '../../components/musicNav'
+import musicNav from '@/components/musicNav/index'
 import store from './store'
-import elephant from '../../elephant-ui'
+import elephant from '@/elephant-ui'
 //模块名称及局部数据
 let moduleData = {
     mName : 'checkFriendRequest', 

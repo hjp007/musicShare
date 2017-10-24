@@ -68,13 +68,6 @@ export default {
             type : String, 
             default : ""
         }
-    },
-    data:function(){
-        return {
-
-        }
-    },
-    methods: {
     }
 }
 </script>
