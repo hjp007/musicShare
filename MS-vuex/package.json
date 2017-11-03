@@ -4,7 +4,7 @@
   "description": "musicShare app with other plugins",
   "main": "server.js",
   "scripts": {
-    "dev": "node dev-server --inline --hot", 
+    "dev": "node dev-server --inline --hot",
     "build": "cd build && webpack --progress --colors && cd .."
   },
   "author": "hjp",
@@ -35,6 +35,7 @@
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.26.4",
     "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
     "jasmine": "2.5.3",
     "jasmine-core": "2.5.2",
     "nightwatch": "^0.9.12",
