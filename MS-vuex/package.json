@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "node dev-server --inline --hot",
-    "build": "cd build && webpack --progress --colors && cd .."
+    "build": "cd build && webpack --progress --colors && cd .. && node index.js"
   },
   "author": "hjp",
   "license": "MIT",

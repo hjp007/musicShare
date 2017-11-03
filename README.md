@@ -1,14 +1,17 @@
 # musicShare
-音乐分享平台（同一项目，四种主流框架搭建）
+音乐分享平台（同一项目，五种主流架构搭建）
 
+![](doc/main_page_vuex.png) 
 ![](doc/main_page_angular.png) 
 ![](doc/main_page_vue.png) 
 ![](doc/main_page_react.png) 
 ![](doc/main_page_angular2.png) 
 
-该项目使用四种主流框架搭建，项目本身很简单，可能让您见笑，但功能不是目的，本人更希望这份项目能够帮助更多的人学会运用前端不同的框架与了解它们的之间的差别
+该项目使用四种主流框架搭建，项目本身很简单，可能让您见笑，但功能不是目的，本人更希望这份项目能够帮助更多的人学会运用前端不同的框架与了解它们的之间的差别。后续最新的版本增加了vue下vuex数据状态管理版本，目前默认这个版本为80端口
 
 ## 在线项目展示（移动端或电脑端）
+
+`vue+vuex` http://47.92.85.220
 
 `angular` http://47.92.85.220:8080
 
@@ -21,6 +24,8 @@
 测试账号 hjp或者hjp2 密码都是123456
 
 ## 目录索引
+
+[vuex架构版本](#vuex)
 
 [angular框架版本](#angular)
 
@@ -69,6 +74,17 @@
 项目使用Typescript语法
 
 [请进入该文件夹查看更多angular2项目相关说明](https://github.com/hjp007/musicShare/tree/master/MS-angular2-TS)
+
+<h2 id="vuex">MS-vuex</h2>
+vue框架基础上使用vuex数据状态管理
+
+实现热处理和打包俩种自动化构建
+
+其余配置同vue
+
+注意vuex适合较大型项目，实际小项目没有必要去用
+
+[请进入该文件夹查看更多vuex项目相关说明](https://github.com/hjp007/musicShare/tree/master/MS-vuex)
 
 <h2 id='page'>项目页面说明</h2> 
 本项目是音乐分享平台，利用七牛云存储音乐文件，来达到在线听音乐，上传音乐，添加好友，分享音乐链接的功能
@@ -216,6 +232,9 @@ http://cnodejs.org/topic/4f9904f9407edba21468f31e
 6、pm2命名参数 --name "项目名称"
 7、linux下npm安装时报node permission denied权限问题时，解决方法网址：
 https://zanjs.com/2017/08/22/nodejs/sh-1-node-Permission-denied/
+8、linux下找到端口占用并删除:(如8083端口)
+netstat -apn | grep 8083
+找到pid后kill -9 
 </pre>
 <h2 id="next">后续更新</h2> 
 即将增加vue框架同时使用vuex状态管理的版本
