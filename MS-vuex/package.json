@@ -4,7 +4,8 @@
   "description": "musicShare app with other plugins",
   "main": "server.js",
   "scripts": {
-    "dev": "node server --inline --hot"
+    "dev": "node server --inline --hot", 
+    "build": "cd build && webpack --progress --colors && cd .."
   },
   "author": "hjp",
   "license": "MIT",

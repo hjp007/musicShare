@@ -2,7 +2,7 @@ const express = require('express')
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-const WebpackConfig = require('./apps/webpack.config')
+const WebpackConfig = require('./build/webpack.dev.config')
 var logger = require('./lib/logger');                     //日志
 
 const app = express()

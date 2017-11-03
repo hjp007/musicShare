@@ -2,13 +2,14 @@ const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 
+const apps_dir = path.resolve(__dirname, '../apps')
 
 module.exports = {
 
   devtool: 'inline-source-map',
   //动态读取apps下面的文件夹然后把各个应用附上去
-  entry: fs.readdirSync(__dirname).reduce((entries, dir) => {
-    const fullDir = path.join(__dirname, dir)
+  entry: fs.readdirSync(apps_dir).reduce((entries, dir) => {
+    const fullDir = path.join(apps_dir, dir)
     const entry = path.join(fullDir, 'app.js')
     if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
       entries[dir] = ['webpack-hot-middleware/client', entry]
@@ -17,7 +18,7 @@ module.exports = {
   }, {}),
 
   output: {
-    path: path.join(__dirname, '__build__'),
+    path: path.join(apps_dir, '__build__'),
     filename: '[name].js',
     chunkFilename: '[id].chunk.js',
     publicPath: '/__build__/'
@@ -41,7 +42,7 @@ module.exports = {
   resolve: {
     alias: {
       'vue' : 'vue/dist/vue.js', 
-      '@'   : path.join(__dirname, 'MS-vuex-ES6')
+      '@'   : path.join(apps_dir, 'MS-vuex-ES6')
     }, 
     extensions: ['.js', '.vue']
   },

@@ -1,14 +1,12 @@
-# MS-others
-音乐分享平台`其它`版本
+# MS-vuex
+音乐分享平台`vuex`版本
 
 ## 项目说明
-这里存放有4种进阶架构方案的前端代码，通过webpack热运行，并且共用一个后台
-
-分别有vue&vuex,react&redux,react native,weex 4种架构方案。
+这里是vue使用vuex数据状态管理的版本
 
 项目前端都统一放在 _apps_ 文件夹里面
 
-webpack目前前端多个app是热运行，并且后台也是热运行的。都在一个热服务器上
+webpack目前前端app是热运行，并且后台也是热运行的。都在一个热服务器上
 
 ## 本地测试（关于后台搭建详见根目录的部署说明）
 #### 引入依赖包
@@ -19,11 +17,9 @@ webpack目前前端多个app是热运行，并且后台也是热运行的。都�
 
 	npm run dev
 
-#### vue版本注意是80端口
+#### vuex版本注意是80端口
 
     http://localhost/
-
-#### 首页会有多个app入口，可以选择进入，包括vuex,redux,react native,weex版本
     
 ## vuex相关知识点
 <pre>
